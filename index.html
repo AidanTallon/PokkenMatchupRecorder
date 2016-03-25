@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+<head>
+<title>Pokken Matchup Recorder</title>
+<!-- Bootstrap -->
+<link rel="stylesheet" href="styles/bootstrap.min.css">
+<link rel="stylesheet" href="styles/bootstrap-theme.min.css">
+
+<!-- CSS -->
+<link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+<div id="PrimaryContainer" class="container-fluid">
+	<form>
+		<div id="CharContainer" class="container">
+			<div class="row"> <!-- Row one of character select -->
+	
+			</div>
+			<div class="row"> <!-- Row two of character select -->
+
+			</div>
+			<div class="row"> <!-- Row three of character select -->
+	
+			</div>
+		</div>
+		<div id="SelectContainer" class="row"> <!-- Shows currently selected characters, and options for recording matchup -->
+			<button id="MatchupToggleButton" onclick="ClickMatchupToggle()" class="btn" type="button">Hide Matchups</button>
+			<div class="col-md-2 col-md-offset-2" id="CharOneImage"> <!-- CharOne Image -->
+			</div>
+			<div class="col-md-2 col-md-offset-1">
+				<input type="range" min="-3" max="3" value="0" onchange="TrackBarChange(this.value)" name="result" id="MatchupTrackBar" disabled="true"/>
+				<label id="TrackBarLabel"></label>
+				<span id="HelperText"></span>
+				<input type="button" value="Submit" onclick="RecordMatchup(this.form);return false" />
+			</div>
+			<div class="col-md-2 col-md-offset-1" id="CharTwoImage"> <!-- CharTwo Image -->
+			</div>
+		</div>
+	</form>
+	<div id="MatchupResults">
+	</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="scripts/bootstrap.min.js"></script>
+<script src="scripts/scripts.js"></script>
+</body>
+</html>
