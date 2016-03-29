@@ -89,7 +89,6 @@ function ExportCharacterDict() { // writes matchup data to text file in order of
 function RecordMatchup() {
 	SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key] = SelectInfo.TrackBar.value;
 	SelectInfo.CharTwo.value.matchupArr[SelectInfo.CharOne.key] = 0 - SelectInfo.TrackBar.value;
-	// TODO: Feedback that value is submitted.
 	ShowMatchups();
 	return;
 };
@@ -140,6 +139,7 @@ function ClickMatchupToggle() { // Switches value of MatchupToggle.Show and chan
 		SelectInfo.MatchupToggle = false;
 		document.getElementById("MatchupToggleButton").innerHTML = "Show Matchups";
 	};
+	ShowMatchups();
 	return;
 };
 
@@ -229,6 +229,8 @@ function GenerateCharacterButtons() { // buttons are of class CharButton. They a
 
 			var img = document.createElement("IMG");
 			img.src = char.value.spriteString;
+			img.style.width = "100%";
+			img.style.height = "100%";
 			newBtn.appendChild(img);
 
 			var mLabel = document.createElement("LABEL");
@@ -239,9 +241,22 @@ function GenerateCharacterButtons() { // buttons are of class CharButton. They a
 			char.value.matchupLabel = mLabel;
 			char.value.button = newBtn;
 
-			if (char.value.charId < 5) charContainer.children().eq(0).append(newBtn);
-			else if (char.value.charId < 9) charContainer.children().eq(1).append(newBtn);
-			else charContainer.children().eq(2).append(newBtn); // These three lines are for formatting layout
+			var div = document.createElement("DIV");
+			div.className = "col-md-1 CharDiv";
+			div.appendChild(newBtn);
+
+			if (char.value.charId == 0 || char.value.charId == 5) {
+				div.className = "col-md-1 col-md-offset-1"
+			}
+			else if (char.value.charId == 7) {
+				var midDiv = document.createElement("DIV");
+				midDiv.className = "col-md-1 midDiv";
+				charContainer.children().eq(1).append(midDiv);
+			}; // these statements format the spaces at beginning/middle of rows
+
+			if (char.value.charId < 5) charContainer.children().eq(0).append(div);
+			else if (char.value.charId < 9) charContainer.children().eq(1).append(div);
+			else charContainer.children().eq(2).append(div); // These lines are for formatting layout
 
 		})(char);
 	};
