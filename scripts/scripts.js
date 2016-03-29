@@ -43,6 +43,9 @@ function InitializeCharacterDict() { // Populates CharacterDict with Character o
 };
 
 function LoadCharacterDict(evt) {
+	SelectInfo.CharOne = null;
+	SelectInfo.CharTwo = null;
+	ShowMatchups();
 	if (window.File && window.FileReader && window.FileList && window.Blob) {
 		var file = evt.target.files[0];
 
