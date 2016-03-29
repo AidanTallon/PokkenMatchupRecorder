@@ -79,11 +79,11 @@ function ExportCharacterDict() { // writes matchup data to text file in order of
 	link.setAttribute("href", "data:text/plain;charset=utf-8,"  + encodeURIComponent(textIn));
 	link.setAttribute("download", "PokkenMatchup");
 	
-	document.getElementById("DownloadDiv").appendChild(link);
+	document.body.appendChild(link);
 
 	link.click();
 
-	document.getElementById("DownloadDiv").appendChild(link);
+	document.body.removeChild(link);
 };
 
 function RecordMatchup() {

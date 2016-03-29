@@ -1,0 +1,47 @@
+body {
+	background: #222;
+}
+
+#CharContainer {
+	background:
+		radial-gradient(black 15%, transparent 16%) 0 0,
+		radial-gradient(black 15%, transparent 16%) 12px 12px,
+		radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 1px 2px,
+		radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 12px 13px;
+	background-color:#282828;
+	background-size:24px 24px;
+}
+
+#Toolbar ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #333;
+}
+
+#Toolbar h7 {
+	float: left;
+	color: white;
+	padding: 14px 16px;
+	text-align: center;
+}
+
+#Toolbar li button {
+	float: right;
+	display: block;
+	color: white;
+	background-color: #333;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	border: none;
+}
+
+#Toolbar li input {
+	position: absolute;
+}
+
+#Toolbar li button:hover {
+	background-color: #111;
+}
