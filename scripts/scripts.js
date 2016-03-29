@@ -42,12 +42,48 @@ function InitializeCharacterDict() { // Populates CharacterDict with Character o
 	return;
 };
 
-function LoadCharacterDict() {
-	// TODO: Load Character info from a file.
+function LoadCharacterDict(evt) {
+	if (window.File && window.FileReader && window.FileList && window.Blob) {
+		var file = evt.target.files[0];
+
+		if (!file) {
+			alert("Failed to load file");
+		} else if (!file.type.match("text.*")) {
+			alert(file.name + " is not a valid text file.");
+		} else {
+			var r = new FileReader();
+			r.onload = function(e) {
+				var contents = e.target.result;
+				var m = contents.split(",");
+				for (var i = 0; i < CharacterNamesArr.length; i++) {
+					for (var j = 0; j < CharacterNamesArr.length; j++) {
+						CharacterDict[i].value.matchupArr[j] = m[(i*16)+j];
+					}
+				}
+			}
+			r.readAsText(file);
+		}
+	} else {
+		alert("The File APIs are not fully supported by your browser.");
+	};
 };
 
-function ExportCharacterDict() {
-	//TODO: Write Character info to a file.
+document.getElementById("FileInput").addEventListener("change", LoadCharacterDict, false);
+
+function ExportCharacterDict() { // writes matchup data to text file in order of charId, then saves file on client computer.
+	var textIn = "";
+	for (var i = 0; i < CharacterNamesArr.length; i++) {
+		textIn = textIn.concat((CharacterDict[i].value.matchupArr.join() + ","));
+	};
+	var link = document.createElement("a");
+	link.setAttribute("href", "data:text/plain;charset=utf-8,"  + encodeURIComponent(textIn));
+	link.setAttribute("download", "PokkenMatchup");
+	
+	document.getElementById("DownloadDiv").appendChild(link);
+
+	link.click();
+
+	document.getElementById("DownloadDiv").appendChild(link);
 };
 
 function RecordMatchup() {
