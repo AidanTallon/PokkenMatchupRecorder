@@ -95,7 +95,25 @@ function RecordMatchup() {
 };
 
 function DeleteMatchup() {
-	//TODO: Take input parameters to alter Character objects in CharacterDict. Should be able to delete specific matchup of X vs Y, and also all matchups of X.
+	if (SelectInfo.CharOne == null) window.alert("Please select character first.");
+	else if (SelectInfo.CharOne != null && SelectInfo.CharTwo == null) {
+		var prompt = window.confirm("Delete all records for this character?");
+		if (prompt == true) {
+			for (var i = 0; i < CharacterNamesArr.length; i++) {
+				SelectInfo.CharOne.value.matchupArr[i] = "";
+				CharacterDict[i].value.matchupArr[SelectInfo.CharOne.key] = "";
+			};
+		}
+	}
+	else if (SelectInfo.CharOne != null && SelectInfo.CharTwo != null) {
+		var prompt = window.confirm("Delete record for this matchup?");
+		if (prompt == true) {
+			SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key] = "";
+			SelectInfo.CharTwo.value.matchupArr[SelectInfo.CharOne.key] = "";
+		};
+	};
+	ShowMatchups();
+	return;
 };
 
 function ShowMatchups() {
