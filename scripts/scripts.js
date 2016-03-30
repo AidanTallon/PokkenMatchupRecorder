@@ -46,7 +46,13 @@ function ClearAllMatchups() { // Resets pretty much everything on page.
 	SelectInfo.CharOne = null;
 	SelectInfo.CharTwo = null;
 	ShowMatchups();
-	InitializeCharacterDict();
+	UpdateCharacterSelectImage();
+	for (var i = 0; i < CharacterDict.length; i++) {
+		for (var j = 0; j < CharacterDict.length; j++) {
+			CharacterDict[i].value.matchupArr[j] = "";
+		}
+	};
+	return;
 }
 
 function LoadCharacterDict(evt) {
