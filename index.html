@@ -14,7 +14,7 @@
 <div id="Toolbar">
 	<ul>
 		<li><h7>Pokken Matchup Recorder</h7></li>
-		<li><button>Clear</button></li>
+		<li><button onclick="ClearAllMatchups()">Clear</button></li>
 		<li><input id="FileInput" type="file" style="visibility:hidden" /><button onclick="$('#FileInput').click();">Load</button></li>
 		<li><button onclick="ExportCharacterDict()">Save</button></li>
 		<li><button>Help</button></li>
@@ -37,16 +37,21 @@
 		</div>
 		<div id="SelectContainer" class="row"> <!-- Shows currently selected characters, and options for recording matchup -->
 			<button id="MatchupToggleButton" onclick="ClickMatchupToggle()" class="btn" type="button">Hide Matchups</button>
-			<div class="col-md-2 col-md-offset-2" id="CharOneImage"> <!-- CharOne Image -->
+			<div class="col-md-2 col-md-offset-2">
+				<button type="button" id="CharOneDelBtn" class="DelBtn" onclick="DeleteCharactersMatchups()">X</button>
+				<div id="CharOneImage"> <!-- CharOne Image -->
+				</div>
 			</div>
 			<div class="col-md-2 col-md-offset-1">
 				<input type="range" min="-3" max="3" value="0" onchange="TrackBarChange(this.value)" name="result" id="MatchupTrackBar" disabled="true"/>
 				<label id="TrackBarLabel"></label>
 				<span id="HelperText"></span>
 				<input type="button" value="Submit" onclick="RecordMatchup(this.form);return false" />
-				<button type="button" onclick="DeleteMatchup()">Delete Matchup Record</button>
 			</div>
-			<div class="col-md-2 col-md-offset-1" id="CharTwoImage"> <!-- CharTwo Image -->
+			<div class="col-md-2 col-md-offset-2">
+				<button type="button" id="CharTwoDelBtn" class="DelBtn" onclick="DeleteSpecificMatchup()">X</button>
+				<div class="col-md-2 col-md-offset-1" id="CharTwoImage"> <!-- CharTwo Image -->
+				</div>
 			</div>
 		</div>
 	</form>

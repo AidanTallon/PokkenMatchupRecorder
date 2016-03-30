@@ -42,6 +42,13 @@ function InitializeCharacterDict() { // Populates CharacterDict with Character o
 	return;
 };
 
+function ClearAllMatchups() { // Resets pretty much everything on page.
+	SelectInfo.CharOne = null;
+	SelectInfo.CharTwo = null;
+	ShowMatchups();
+	InitializeCharacterDict();
+}
+
 function LoadCharacterDict(evt) {
 	SelectInfo.CharOne = null;
 	SelectInfo.CharTwo = null;
@@ -96,18 +103,9 @@ function RecordMatchup() {
 	return;
 };
 
-function DeleteMatchup() {
-	if (SelectInfo.CharOne == null) window.alert("Please select character first.");
-	else if (SelectInfo.CharOne != null && SelectInfo.CharTwo == null) {
-		var prompt = window.confirm("Delete all records for this character?");
-		if (prompt == true) {
-			for (var i = 0; i < CharacterNamesArr.length; i++) {
-				SelectInfo.CharOne.value.matchupArr[i] = "";
-				CharacterDict[i].value.matchupArr[SelectInfo.CharOne.key] = "";
-			};
-		}
-	}
-	else if (SelectInfo.CharOne != null && SelectInfo.CharTwo != null) {
+function DeleteSpecificMatchup() { // This method and DeleteCharactersMatchups() will replace DeleteMatchup()
+	if (SelectInfo.CharOne == null || SelectInfo.CharTwo == null) window.alert("Please select characters first.");
+	else {
 		var prompt = window.confirm("Delete record for this matchup?");
 		if (prompt == true) {
 			SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key] = "";
@@ -116,7 +114,22 @@ function DeleteMatchup() {
 	};
 	ShowMatchups();
 	return;
-};
+}
+
+function DeleteCharactersMatchups() {
+	if (SelectInfo.CharOne == null) window.alert("Please select character first.");
+	else {
+		var prompt = window.confirm("Delete all records for this character?");
+		if (prompt == true) {
+			for (var i = 0; i < CharacterDict.length; i++) {
+				SelectInfo.CharOne.value.matchupArr[i] = "";
+				CharacterDict[i].value.matchupArr[SelectInfo.CharOne.key] = "";
+			};
+		}
+	}
+	ShowMatchups();
+	return;
+}
 
 function ShowMatchups() {
 	// TODO: Display matchups for charOne
