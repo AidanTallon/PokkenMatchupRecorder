@@ -285,6 +285,14 @@ function GenerateCharacterButtons() { // buttons are of class CharButton. They a
 	return;
 };
 
+function openNav() {
+	document.getElementById("HelpOverlay").style.height = "100%";
+}
+
+function closeNav() {
+	document.getElementById("HelpOverlay").style.height = "0%";
+}
+
 $(document).ready(function() {
 	InitializeCharacterDict();
 	GenerateCharacterButtons();
