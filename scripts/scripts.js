@@ -170,26 +170,33 @@ function CharButtonClick(char) { // assigns characters to SelectInfo.CharOne and
 		SelectInfo.CharOne = null;
 		SelectInfo.CharTwo = null;
 		SelectInfo.TrackBar.value = 0;
-		SelectInfo.TrackBar.disabled = true;	
+		SelectInfo.TrackBar.disabled = true;
+		TrackBarChange(0);	
 	}
 	else if (SelectInfo.CharOne == null) {
 		SelectInfo.CharOne = char;
 		SelectInfo.CharTwo = null;
 		SelectInfo.TrackBar.value = 0;
-		SelectInfo.TrackBar.disabled = true;	
+		SelectInfo.TrackBar.disabled = true;
+		TrackBarChange(0);	
 	}
 	else if (SelectInfo.CharTwo == char) {
 		SelectInfo.CharTwo = null;
 		SelectInfo.TrackBar.value = 0;
-		SelectInfo.TrackBar.disabled = true;	
+		SelectInfo.TrackBar.disabled = true;
+		TrackBarChange(0);	
 	}
 	else if (SelectInfo.CharOne != null && SelectInfo.CharTwo != char) {
 		SelectInfo.CharTwo = char;
 		SelectInfo.TrackBar.value = 0;
 		SelectInfo.TrackBar.disabled = false;	
+		if (SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key] != null) {
+			SelectInfo.TrackBar.value = SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key];
+			TrackBarChange(SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key]); // Default value of trackbar is the stored matchup if it exists
+		}
+		else TrackBarChange(0);
 	};
 	ShowMatchups();
-	TrackBarChange(0); // What if we load the matchup recorded if it exists? as a default position for the trackbar.
 	UpdateCharacterSelectImage();
 	return;
 };

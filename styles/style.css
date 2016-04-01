@@ -2,6 +2,33 @@ body {
 	background: #222;
 }
 
+@media (min-width: 768px) {
+	.seven-cols .col-md-1,
+	.seven-cols .col-sm-1,
+	.seven-cols .col-lg-1 {
+		width: 100%;
+		*width: 100%;
+	}
+}
+
+@media (min-width: 992px) {
+	.seven-cols .col-md-1,
+	.seven-cols .col-sm-1,
+	.seven-cols .col-lg-1 {
+		width: 14.285714285714285714285714285714%;
+		*width: 14.285714285714285714285714285714%;
+	}
+}
+
+@media (min-width: 1200px) {
+	.seven-cols .col-md-1,
+	.seven-cols .col-sm-1,
+	.seven-cols .col-lg-1 {
+		width: 14.285714285714285714285714285714%;	
+		*width: 14.285714285714285714285714285714%;
+	}
+}
+
 #CharContainer {
 	background:
 		radial-gradient(black 15%, transparent 16%) 0 0,
@@ -10,19 +37,35 @@ body {
 		radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 12px 13px;
 	background-color:#282828;
 	background-size:24px 24px;
+	width: 1000px;
+	height: 300px;
+	border: solid black 5px;
+	border-radius: 5px;
+	border-width: 4px 6px 4px 6px;
 }
 
 .CharButton {
 	background-color: #313131;
+	height: 90px;
+	width: 100px;
 	border: none;
+	outline: none;
 }
 
 .CharButton:hover {
 	background-color: #234366;
 }
 
+.CharButton:active {
+	background-color: #E00000;
+}
+
 .CharDiv {
-	margin-bottom: 5px;
+	height: 100px;
+}
+
+#SelectContainer {
+	width: 1000px;
 }
 
 .MiddleSelectDiv {
