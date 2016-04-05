@@ -48,6 +48,9 @@ function ClearAllMatchups() { // Resets pretty much everything on page.
 	SelectInfo.CharOne = null;
 	SelectInfo.CharTwo = null;
 	ShowMatchups();
+	SelectInfo.TrackBar.value = 0;
+	SelectInfo.TrackBar.disabled = true;
+	TrackBarChange(0);
 	UpdateCharacterSelectImage();
 	for (var i = 0; i < CharacterDict.length; i++) {
 		for (var j = 0; j < CharacterDict.length; j++) {
@@ -111,7 +114,7 @@ function RecordMatchup() {
 	return;
 };
 
-function DeleteSpecificMatchup() { // This method and DeleteCharactersMatchups() will replace DeleteMatchup()
+function DeleteSpecificMatchup() { // Delete specific matchup between CharOne and CharTwo
 	if (SelectInfo.CharOne == null || SelectInfo.CharTwo == null) window.alert("Please select characters first.");
 	else {
 		var prompt = window.confirm("Delete record for this matchup?");
@@ -124,7 +127,7 @@ function DeleteSpecificMatchup() { // This method and DeleteCharactersMatchups()
 	return;
 }
 
-function DeleteCharactersMatchups() {
+function DeleteCharactersMatchups() { // Delete all of CharOnes matchups
 	if (SelectInfo.CharOne == null) window.alert("Please select character first.");
 	else {
 		var prompt = window.confirm("Delete all records for this character?");
