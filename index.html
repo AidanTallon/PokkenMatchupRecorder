@@ -19,16 +19,108 @@
 		<li><button onclick="ClearAllMatchups()">Clear</button></li>
 		<li><input id="FileInput" type="file" style="visibility:hidden" /><button onclick="$('#FileInput').click();">Load</button></li>
 		<li><button onclick="ExportCharacterDict()">Save</button></li>
-		<li><button onclick="openNav()">Help</button></li>
+		<li><button onclick="openHelpNav()">Help</button></li>
+		<li><button onclick="openShareNav()">Share</button></li>
 	</ul>
 </div>
 
 
 <div id="HelpOverlay" class="overlay">
-	<a href="javascript:void(0)" class="closeBtn" onclick="closeNav()">&times;</a>
+	<a href="javascript:void(0)" class="closeBtn" onclick="closeHelpNav()">&times;</a>
 
 	<div class="overlay-content">
 		<p>HELP TEXT GOES HERE</p>
+	</div>
+</div>
+
+<div id="ShareOverlay" class="overlay">
+	<a href="javascript:void(0)" class="closeBtn" onclick="closeShareNav()">&times;</a>
+	<div class="container" id="ShareCharContainer">
+		<div class="row">
+
+		</div>
+		<div class="row">
+
+		</div>
+	</div>
+
+	<div class="container" id="ShareScreen">
+		<div class="row">
+			<div class="col-md-6">
+				<div id="ShareCharImg">
+				</div>
+				<div id="ShareCharLabel">
+				</div>
+			</div>
+
+			<div class="col-md-6" id="ShareTiers">
+				<div class="row">
+					<div>
+						<h3>3</h3>
+					</div>
+					<div class="ShareTierContent">
+					</div>
+					<hr />
+				</div>
+
+				<div class="row">
+					<div>
+						<h3>2</h3>
+					</div>
+					<div class="ShareTierContent">
+					</div>
+					<hr />
+				</div>
+
+				<div class="row">
+					<div>
+						<h3>1</h3>
+					</div>
+					<div class="ShareTierContent">
+					</div>
+					<hr />
+				</div>
+
+				<div class="row">
+					<div>
+						<h3>0</h3>
+					</div>
+					<div class="ShareTierContent">
+					</div>
+					<hr />
+				</div>
+
+				<div class="row">
+					<div>
+						<h3>-1</h3>
+					</div>
+					<div class="ShareTierContent">
+					</div>
+					<hr />
+				</div>
+				
+				<div class="row">
+					<div>
+						<h3>-2</h3>
+					</div>
+					<div class="ShareTierContent">
+					</div>
+					<hr />
+				</div>
+
+				<div class="row">
+					<div>
+						<h3>-3</h3>
+					</div>
+					<div class="ShareTierContent">
+					</div>
+					<hr />
+				</div>
+
+			</div>
+		</div>
+		<div class="row" id="NullTier">
+		</div>
 	</div>
 </div>
 

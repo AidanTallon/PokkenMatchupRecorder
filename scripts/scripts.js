@@ -6,7 +6,8 @@ var SelectInfo = { // CharOne and CharTwo hold reference to characters currently
 	TrackBar:document.getElementById("MatchupTrackBar"), // Reference to trackbar for value and disabled
 	TrackBarLabel:document.getElementById("TrackBarLabel"), // label used to display matchup result
 	HelperText:document.getElementById("HelperText"), // span used to display text for clarity of what matchup result means
-	MatchupToggle:true // Toggles if matchups are shown for charOne
+	MatchupToggle:true, // Toggles if matchups are shown for charOne
+	ShareChar:null
 };
 
 var CharacterNamesArr = ["Blaziken",
@@ -35,7 +36,8 @@ function InitializeCharacterDict() { // Populates CharacterDict with Character o
 			spriteString:"img/sprites/" + CharacterNamesArr.indexOf(char) + ".png",
 			portraitString:"img/portraits/" + CharacterNamesArr.indexOf(char) + ".png",
 			button:null,
-			matchupLabel:null // matchupLabel is the label element that displays the matchup value between this character and charOne when MatchupToggle is true
+			matchupLabel:null, // matchupLabel is the label element that displays the matchup value between this character and charOne when MatchupToggle is true
+			shareButton:null
 		};
 		CharacterDict.push({key:newChar.charId, value:newChar});
 	};
@@ -243,8 +245,9 @@ function UpdateCharacterSelectImage() {
 	return;
 };
 
-function GenerateCharacterButtons() { // buttons are of class CharButton. They are referenced in CharacterDict[i].value.button.
+function GenerateCharacterButtons() { // buttons are of class CharButton. They are referenced in CharacterDict[i].value.button. ShareButtons are of class ShareCharButton and are in CharacterDict[i].value.shareButton
 	var charContainer = $("#CharContainer");
+	var shareContainer = $("#ShareCharContainer");
 	for (var char of CharacterDict){
 		(function(char) {
 			var newBtn = document.createElement("BUTTON");
@@ -256,11 +259,26 @@ function GenerateCharacterButtons() { // buttons are of class CharButton. They a
 			});
 			newBtn.type = "button";
 
+			var shareBtn = document.createElement("BUTTON");
+			shareBtn.title = char.value.charName;
+			shareBtn.className = "ShareCharButton";
+			shareBtn.addEventListener("click", function(){
+					ShareCharButtonClick(char);
+					return;
+			});
+			shareBtn.type = "button";
+
 			var img = document.createElement("IMG");
 			img.src = char.value.spriteString;
 			img.style.width = "100%";
 			img.style.height = "100%";
 			newBtn.appendChild(img);
+
+			var shareImg = document.createElement("IMG");
+			shareImg.src = char.value.spriteString;
+			shareImg.style.width = "100%";
+			shareImg.style.height = "100%";
+			shareBtn.appendChild(shareImg);
 
 			var mLabel = document.createElement("LABEL");
 			mLabel.text = "";
@@ -269,13 +287,14 @@ function GenerateCharacterButtons() { // buttons are of class CharButton. They a
 
 			char.value.matchupLabel = mLabel;
 			char.value.button = newBtn;
+			char.value.shareButton = shareBtn;
 
 			var div = document.createElement("DIV");
 			div.className = "col-md-1 CharDiv";
 			div.appendChild(newBtn);
 
 			if (char.value.charId == 0 || char.value.charId == 5) {
-				div.className = "col-md-1 col-md-offset-1"
+				div.className = "col-md-1 col-md-offset-1 CharDiv"
 			}
 			else if (char.value.charId == 7) {
 				var midDiv = document.createElement("DIV");
@@ -285,18 +304,100 @@ function GenerateCharacterButtons() { // buttons are of class CharButton. They a
 
 			if (char.value.charId < 5) charContainer.children().eq(0).append(div);
 			else if (char.value.charId < 9) charContainer.children().eq(1).append(div);
-			else charContainer.children().eq(2).append(div); // These lines are for formatting layout
+			else charContainer.children().eq(2).append(div); // These lines are for formatting layout of CharButtons
 
+			var shareDiv = document.createElement("DIV");
+			shareDiv.className = "col-md-1 ShareCharDiv";
+			shareDiv.appendChild(shareBtn);
+			
+			if (char.value.charId == 0 || char.value.charId == 8) {
+				shareDiv.className = "col-md-1 col-md-offset-2 ShareCharDiv";
+			}
+			
+			if (char.value.charId < 8) shareContainer.children().eq(0).append(shareDiv);
+			else shareContainer.children().eq(1).append(shareDiv);
 		})(char);
 	};
 	return;
 };
 
-function openNav() {
+function ShareCharButtonClick(char) {
+	SelectInfo.ShareChar = char;
+	UpdateShareScreen();
+}
+
+function UpdateShareScreen() {
+	var shareScreen = $("#ShareScreen");
+	var shareTiers = $("#ShareTiers");
+	var nullTier = $("#NullTier");
+	var shareImg = $("#ShareCharImg");
+	var charLabel = $("#ShareCharLabel");
+
+	nullTier.empty();
+	shareImg.empty();
+	charLabel.empty();
+	for (var i = 0; i < 7; i++) {
+		shareTiers.children().eq(i).children(".ShareTierContent").empty();
+	}
+
+	if (SelectInfo.ShareChar == null) return;
+	else {
+
+		var img = document.createElement("IMG");
+		img.src = SelectInfo.ShareChar.value.portraitString;
+		img.style.width = "100%";
+		img.style.height = "100%";
+
+		shareImg.empty().append(img);
+
+		charLabel.html(SelectInfo.ShareChar.value.charName);
+
+		for (var char of CharacterDict) {
+			if (char.key == SelectInfo.ShareChar.key) continue;
+
+			var div = document.createElement("DIV");
+			div.className = "col-md-1";
+
+			var sprImg = document.createElement("IMG");
+			sprImg.src = char.value.spriteString;
+			sprImg.title = char.value.charName;
+			div.appendChild(sprImg);
+
+			var x = SelectInfo.ShareChar.value.matchupArr[char.key]
+
+			if (x == null) nullTier.append(div);
+			else if (x == 3) shareTiers.children().eq(0).children(".ShareTierContent").append(div); 
+			else if (x == 2) shareTiers.children().eq(1).children(".ShareTierContent").append(div);
+			else if (x == 1) shareTiers.children().eq(2).children(".ShareTierContent").append(div);
+			else if (x == 0) shareTiers.children().eq(3).children(".ShareTierContent").append(div);
+			else if (x == -1) shareTiers.children().eq(4).children(".ShareTierContent").append(div);
+			else if (x == -2) shareTiers.children().eq(5).children(".ShareTierContent").append(div);
+			else if (x == -3) shareTiers.children().eq(6).children(".ShareTierContent").append(div);
+		}
+	}
+
+	return;
+}
+
+
+
+function openShareNav() {
+	document.getElementById("HelpOverlay").style.height = "0%";
+	document.getElementById("ShareOverlay").style.height = "100%";
+}
+
+function closeShareNav() {
+	SelectInfo.ShareChar = null;
+	UpdateShareScreen();
+	document.getElementById("ShareOverlay").style.height = "0%";
+}
+
+function openHelpNav() {
+	document.getElementById("ShareOverlay").style.height = "0%";
 	document.getElementById("HelpOverlay").style.height = "100%";
 }
 
-function closeNav() {
+function closeHelpNav() {
 	document.getElementById("HelpOverlay").style.height = "0%";
 }
 
