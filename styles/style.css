@@ -156,11 +156,38 @@ body {
 	color: #818181;
 }
 
+.MatchupLabel {
+	position: relative;
+	bottom: 20px;
+	right: -40px;
+	color: white;
+	font-size: 20px;
+}
+
 .closeBtn {
 	position: absolute;
 	top: 20px;
 	right: 45px;
 	font-size: 60px;
+}
+
+.ShareCharTile {
+	position: relative;
+	margin: 10px;
+
+}
+
+.ShareTierContent {
+	position: absolute;
+}
+
+.ShareTierLabel {
+	font-size: 40px;
+	margin-right: 5px;
+}
+
+.ShareTierRow {
+	height: 100px;
 }
 
 @media screen and (max-height: 450px) {

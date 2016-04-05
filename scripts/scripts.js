@@ -149,6 +149,9 @@ function ShowMatchups() {
 	else if (SelectInfo.MatchupToggle) {
 		for (var i = 0; i < CharacterNamesArr.length; i++) {
 			if (SelectInfo.CharOne.value.matchupArr[i] != null) CharacterDict[i].value.matchupLabel.innerHTML = SelectInfo.CharOne.value.matchupArr[i];
+			if (SelectInfo.CharOne.value.matchupArr[i] < 0) CharacterDict[i].value.matchupLabel.style.color = "#C20000";
+			else if (SelectInfo.CharOne.value.matchupArr[i] > 0) CharacterDict[i].value.matchupLabel.style.color = "#1BAD02";
+			else if (SelectInfo.CharOne.value.matchupArr[i] == 0) CharacterDict[i].value.matchupLabel.style.color = "white";
 		};
 	};
 	return;
@@ -356,7 +359,7 @@ function UpdateShareScreen() {
 			if (char.key == SelectInfo.ShareChar.key) continue;
 
 			var div = document.createElement("DIV");
-			div.className = "col-md-1";
+			div.className = "col-md-1 ShareCharTile";
 
 			var sprImg = document.createElement("IMG");
 			sprImg.src = char.value.spriteString;
