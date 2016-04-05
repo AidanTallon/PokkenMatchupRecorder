@@ -51,7 +51,7 @@ function ClearAllMatchups() { // Resets pretty much everything on page.
 	UpdateCharacterSelectImage();
 	for (var i = 0; i < CharacterDict.length; i++) {
 		for (var j = 0; j < CharacterDict.length; j++) {
-			CharacterDict[i].value.matchupArr[j] = "";
+			CharacterDict[i].value.matchupArr[j] = null;
 		}
 	};
 	return;
@@ -116,8 +116,8 @@ function DeleteSpecificMatchup() { // This method and DeleteCharactersMatchups()
 	else {
 		var prompt = window.confirm("Delete record for this matchup?");
 		if (prompt == true) {
-			SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key] = "";
-			SelectInfo.CharTwo.value.matchupArr[SelectInfo.CharOne.key] = "";
+			SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key] = null;
+			SelectInfo.CharTwo.value.matchupArr[SelectInfo.CharOne.key] = null;
 		};
 	};
 	ShowMatchups();
@@ -130,8 +130,8 @@ function DeleteCharactersMatchups() {
 		var prompt = window.confirm("Delete all records for this character?");
 		if (prompt == true) {
 			for (var i = 0; i < CharacterDict.length; i++) {
-				SelectInfo.CharOne.value.matchupArr[i] = "";
-				CharacterDict[i].value.matchupArr[SelectInfo.CharOne.key] = "";
+				SelectInfo.CharOne.value.matchupArr[i] = null;
+				CharacterDict[i].value.matchupArr[SelectInfo.CharOne.key] = null;
 			};
 		}
 	}
