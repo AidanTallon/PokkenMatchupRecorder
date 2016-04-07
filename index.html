@@ -125,40 +125,40 @@
 </div>
 
 <div id="PrimaryContainer" class="container-fluid">
-	<form>
-		<div id="CharContainer" class="container">
-			<div class="row seven-cols"> <!-- Row one of character select -->
-				
-			</div>
-			<div class="row seven-cols"> <!-- Row two of character select -->
 
-			</div>
-			<div class="row seven-cols"> <!-- Row three of character select -->
+	<div id="CharContainer" class="container">
+		<div class="row seven-cols"> <!-- Row one of character select -->
+				
+		</div>
+		<div class="row seven-cols"> <!-- Row two of character select -->
+
+		</div>
+		<div class="row seven-cols"> <!-- Row three of character select -->
 	
-			</div>
 		</div>
-		<div id="SelectContainer" class="container"> <!-- Shows currently selected characters, and options for recording matchup -->
-			<div class="row">
-				<button id="MatchupToggleButton" onclick="ClickMatchupToggle()" class="btn" type="button">Hide Matchups</button>
-				<div class="col-md-4">
-					<button type="button" id="CharOneDelBtn" class="DelBtn" onclick="DeleteCharactersMatchups()">&times;</button>
-					<div id="CharOneImage"> <!-- CharOne Image -->
-					</div>
-				</div>
-				<div class="col-md-2 MiddleSelectDiv">
-					<input type="range" min="-3" max="3" value="0" onchange="TrackBarChange(this.value)" name="result" id="MatchupTrackBar" disabled="true"/>
-					<label id="TrackBarLabel"></label>
-					<span id="HelperText"></span>
-					<input class="SubmitButton" type="button" value="Submit" onclick="RecordMatchup(this.form);return false" />
-				</div>
-				<div class="col-md-4">
-					<button type="button" id="CharTwoDelBtn" class="DelBtn" onclick="DeleteSpecificMatchup()">&times;</button>
-					<div class="col-md-2 col-md-offset-1" id="CharTwoImage"> <!-- CharTwo Image -->
-					</div>
+	</div>
+	<div id="SelectContainer" class="container"> <!-- Shows currently selected characters, and options for recording matchup -->
+		<div class="row">
+			<button id="MatchupToggleButton" onclick="ClickMatchupToggle()" class="btn" type="button">Hide Matchups</button>
+			<div class="col-md-4">
+				<button type="button" id="CharOneDelBtn" class="DelBtn" onclick="DeleteCharactersMatchups()">&times;</button>
+				<div id="CharOneImage"> <!-- CharOne Image -->
 				</div>
 			</div>
+			<div class="col-md-2 MiddleSelectDiv">
+				<input type="range" min="-3" max="3" value="0" onchange="TrackBarChange(this.value)" name="result" id="MatchupTrackBar" disabled="true"/>
+				<label id="TrackBarLabel"></label>
+				<span id="HelperText"></span>
+				<input class="SubmitButton" type="button" value="Submit" onclick="RecordMatchup();return false" />
+			</div>
+			<div class="col-md-4">
+				<button type="button" id="CharTwoDelBtn" class="DelBtn" onclick="DeleteSpecificMatchup()">&times;</button>
+				<div class="col-md-2 col-md-offset-1" id="CharTwoImage"> <!-- CharTwo Image -->
+				</div>
+			</div>
 		</div>
-	</form>
+	</div>
+
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script src="scripts/bootstrap.min.js"></script>
