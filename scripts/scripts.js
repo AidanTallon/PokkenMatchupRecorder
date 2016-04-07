@@ -96,15 +96,19 @@ function ExportCharacterDict() { // writes matchup data to text file in order of
 	for (var i = 0; i < CharacterNamesArr.length; i++) {
 		textIn = textIn.concat((CharacterDict[i].value.matchupArr.join() + ","));
 	};
-	var link = document.createElement("a");
-	link.setAttribute("href", "data:text/plain;charset=utf-8,"  + encodeURIComponent(textIn));
-	link.setAttribute("download", "PokkenMatchup");
-	
-	document.body.appendChild(link);
-
-	link.click();
-
-	document.body.removeChild(link);
+	var blob = new Blob([textIn], {type: "text/csv"});
+	var filename = "PokkenMatchupRecorder.txt";
+	if (window.navigator.msSaveOrOpenBlob) {
+		window.navigator.msSaveBlob(blob, filename);
+	}
+	else {
+		var elem = window.document.createElement("a");
+		elem.href = window.URL.createObjectURL(blob);
+		elem.download = filename;
+		document.body.appendChild(elem);
+		elem.click();
+		document.body.removeChild(elem);
+	}
 };
 
 function RecordMatchup() {
