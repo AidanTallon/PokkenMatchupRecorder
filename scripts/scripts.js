@@ -304,7 +304,9 @@ function GenerateCharacterButtons() { // buttons are of class CharButton. They a
 			div.appendChild(newBtn);
 
 			if (char.value.charId == 0 || char.value.charId == 5) {
-				div.className = "col-md-1 col-md-offset-1 CharDiv"
+				var extraDiv = document.createElement("DIV");
+				extraDiv.className = "col-md-1";
+				charContainer.children().eq(char.value.charId/5).append(extraDiv);
 			}
 			else if (char.value.charId == 7) {
 				var midDiv = document.createElement("DIV");
