@@ -333,6 +333,55 @@ function GenerateCharacterButtons() { // buttons are of class CharButton. They a
 	return;
 };
 
+function ShareImage() { // Will replace the html generated on the Share overlay.
+	var canvas = document.createElement("CANVAS");
+	var ctx = canvas.getContext("2d");
+	ctx.canvas.width = 800;
+	ctx.canvas.height = 500;
+	ctx.fillStyle = "#222";
+	ctx.fillRect(0, 0, 800, 500);
+	var mainImg = document.createElement("IMG");
+	mainImg.src = SelectInfo.ShareChar.value.portraitString;
+	mainImg.style.width = "300px";
+	ctx.drawImage(mainImg, 50, 50, 300, 300);
+	ctx.font = "30px Arial";
+	ctx.fillStyle = "white";
+	ctx.textAlign = "center";
+	ctx.fillText(SelectInfo.ShareChar.value.charName, 200, 400);
+	var refPoint = 0; // this is the y position of the last image placed in a row. used to calculate where the next row should start.
+	for (var i = 3; i > -4; i--) {
+		refPoint += 50;
+		var valueLabel = "";
+		if (i > 0) valueLabel = "+" + i;
+		else valueLabel = i;
+		ctx.fillText(valueLabel, 400, refPoint + 50);
+		count = 0;
+		xCoord = 450;
+		for (c of SelectInfo.ShareChar.value.matchupArr) {
+			if (c == i) {
+				if (xCoord != 800) {
+					var sprImage = document.createElement("IMG");
+					sprImage.src = CharacterDict[count].value.spriteString;
+					sprImage.style.width = "50px";
+					ctx.drawImage(sprImage, xCoord, refPoint, 50, 50);
+					xCoord += 50;
+				}
+				else {
+					xCoord = 450;
+					refPoint += 50;
+					var SprImage = document.createElement("IMG");
+					sprImage.src = CharacterDict[count].value.spriteString;
+					sprImage.style.width = "50px";
+					ctx.drawImage(sprImage, xCoord, refPoint, 50, 50);
+					xCoord += 50;
+				}
+			}
+			count++;
+		}
+	}
+	document.body.appendChild(canvas); // FOR TESTING
+}
+
 function ShareCharButtonClick(char) {
 	SelectInfo.ShareChar = char;
 	UpdateShareScreen();
@@ -342,7 +391,7 @@ function UpdateShareScreen() {
 	var shareScreen = $("#ShareScreen");
 	var shareTiers = $("#ShareTiers");
 	var nullTier = $("#NullTier");
-	var shareImg = $("#ShareCharImg");
+	var shareImg = $("#ShareCharImgDiv");
 	var charLabel = $("#ShareCharLabel");
 
 	nullTier.empty();
@@ -359,6 +408,7 @@ function UpdateShareScreen() {
 		img.src = SelectInfo.ShareChar.value.portraitString;
 		img.style.width = "100%";
 		img.style.height = "100%";
+		img.id = "ShareCharImg";
 
 		shareImg.empty().append(img);
 
