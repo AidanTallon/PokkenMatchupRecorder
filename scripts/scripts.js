@@ -27,7 +27,7 @@ var CharacterNamesArr = ["Blaziken",
 			 "Garchomp",
 			 "Shadow Mewtwo"]; // Index corresponds to character ID.
 
-function InitializeCharacterDict() { // Populates CharacterDict with Character objects.
+function InitializeCharacterDict() { // Populates CharacterDict with Character objects for each name in CharacterNamesArr.
 	for (var char of CharacterNamesArr) {
 		var newChar = {
 			charName:char,
@@ -48,13 +48,12 @@ function ClearAllMatchups() { // Resets pretty much everything on page.
 	SelectInfo.CharOne = null;
 	SelectInfo.CharTwo = null;
 	ShowMatchups();
-	SelectInfo.TrackBar.value = 0;
 	SelectInfo.TrackBar.disabled = true;
 	TrackBarChange(0);
 	UpdateCharacterSelectImage();
-	for (var i = 0; i < CharacterDict.length; i++) {
-		for (var j = 0; j < CharacterDict.length; j++) {
-			CharacterDict[i].value.matchupArr[j] = null;
+	for (var c of CharacterDict) {
+		for (var i = 0; i < CharacterDict.length; i++) {
+			c.value.matchupArr[i] = null;
 		}
 	};
 	return;
@@ -147,25 +146,28 @@ function DeleteCharactersMatchups() { // Delete all of CharOnes matchups
 }
 
 function ShowMatchups() {
-	// TODO: Display matchups for charOne
-	if (!SelectInfo.MatchupToggle || SelectInfo.CharOne == null) {
-		for (var i = 0; i < CharacterNamesArr.length; i++) {
-			CharacterDict[i].value.matchupLabel.innerHTML = "";
-		};
+	for (var c of CharacterDict) {
+		c.value.matchupLabel.innerHTML = "";
 	}
-	else if (SelectInfo.MatchupToggle) {
-		for (var i = 0; i < CharacterNamesArr.length; i++) {
-			if (SelectInfo.CharOne.value.matchupArr[i] != null) CharacterDict[i].value.matchupLabel.innerHTML = SelectInfo.CharOne.value.matchupArr[i];
-			if (SelectInfo.CharOne.value.matchupArr[i] < 0) CharacterDict[i].value.matchupLabel.style.color = "#C20000";
-			else if (SelectInfo.CharOne.value.matchupArr[i] > 0) CharacterDict[i].value.matchupLabel.style.color = "#1BAD02";
-			else if (SelectInfo.CharOne.value.matchupArr[i] == 0) CharacterDict[i].value.matchupLabel.style.color = "white";
+
+	if (SelectInfo.MatchupToggle && SelectInfo.CharOne != null) {
+		for (var i = 0; i < CharacterDict.length; i++) {
+
+			if (SelectInfo.CharOne.value.matchupArr[i] != null) {
+
+				CharacterDict[i].value.matchupLabel.innerHTML = SelectInfo.CharOne.value.matchupArr[i];
+
+				if (SelectInfo.CharOne.value.matchupArr[i] < 0) CharacterDict[i].value.matchupLabel.style.color = "#C20000";
+				else if (SelectInfo.CharOne.value.matchupArr[i] == 0) CharacterDict[i].value.matchupLabel.style.color = "white";
+				else if (SelectInfo.CharOne.value.matchupArr[i] > 0) CharacterDict[i].value.matchupLabel.style.color = "#1BAD02";
+			}
 		};
 	};
 	return;
 };
 
 function ClickMatchupToggle() { // Switches value of MatchupToggle.Show and changes text in MatchupToggleButton.
-	if (SelectInfo.MatchupToggle == false) {
+	if (!SelectInfo.MatchupToggle) {
 		SelectInfo.MatchupToggle = true;
 		document.getElementById("MatchupToggleButton").innerHTML = "Hide Matchups";
 	}
@@ -181,26 +183,22 @@ function CharButtonClick(char) { // assigns characters to SelectInfo.CharOne and
 	if (SelectInfo.CharOne == char) {
 		SelectInfo.CharOne = null;
 		SelectInfo.CharTwo = null;
-		SelectInfo.TrackBar.value = 0;
 		SelectInfo.TrackBar.disabled = true;
 		TrackBarChange(0);	
 	}
 	else if (SelectInfo.CharOne == null) {
 		SelectInfo.CharOne = char;
 		SelectInfo.CharTwo = null;
-		SelectInfo.TrackBar.value = 0;
 		SelectInfo.TrackBar.disabled = true;
 		TrackBarChange(0);	
 	}
 	else if (SelectInfo.CharTwo == char) {
 		SelectInfo.CharTwo = null;
-		SelectInfo.TrackBar.value = 0;
 		SelectInfo.TrackBar.disabled = true;
 		TrackBarChange(0);	
 	}
 	else if (SelectInfo.CharOne != null && SelectInfo.CharTwo != char) {
 		SelectInfo.CharTwo = char;
-		SelectInfo.TrackBar.value = 0;
 		SelectInfo.TrackBar.disabled = false;	
 		if (SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key] != null) {
 			SelectInfo.TrackBar.value = SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key];
@@ -214,7 +212,8 @@ function CharButtonClick(char) { // assigns characters to SelectInfo.CharOne and
 };
 
 function TrackBarChange(value) { // Updates TrackBarLabel and HelperText
-	if (SelectInfo.TrackBar.disabled == false) {
+	if (!SelectInfo.TrackBar.disabled) {
+		SelectInfo.TrackBar.value = value;
 		SelectInfo.TrackBarLabel.innerHTML = value;
 		if (value == 0) {
 			SelectInfo.HelperText.innerHTML = SelectInfo.CharOne.value.charName + " vs. " + SelectInfo.CharTwo.value.charName + " is an even matchup.";
@@ -227,6 +226,7 @@ function TrackBarChange(value) { // Updates TrackBarLabel and HelperText
 		};
 	}
 	else if (SelectInfo.TrackBar.disabled) {
+		SelectInfo.TrackBar.value = 0;
 		SelectInfo.TrackBarLabel.innerHTML = "";
 		SelectInfo.HelperText.innerHTML = "";
 	};
