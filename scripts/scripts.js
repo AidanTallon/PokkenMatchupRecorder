@@ -333,28 +333,40 @@ function GenerateCharacterButtons() { // buttons are of class CharButton. They a
 	return;
 };
 
-function ShareImage() { // Will replace the html generated on the Share overlay.
-	var canvas = document.createElement("CANVAS");
+function UpdateShareScreen() { // Will replace the html generated on the Share overlay.
+	if (SelectInfo.ShareChar == null) {
+		$("#ShareCanvas").empty;
+		return;
+	}
+	var canvas = document.getElementById("ShareCanvas");
 	var ctx = canvas.getContext("2d");
+
 	ctx.canvas.width = 800;
 	ctx.canvas.height = 500;
 	ctx.fillStyle = "#222";
 	ctx.fillRect(0, 0, 800, 500);
+
 	var mainImg = document.createElement("IMG");
 	mainImg.src = SelectInfo.ShareChar.value.portraitString;
 	mainImg.style.width = "300px";
-	ctx.drawImage(mainImg, 50, 50, 300, 300);
+	mainImg.onload = function() {
+		ctx.drawImage(mainImg, 50, 50, 300, 300);
+	}
+
 	ctx.font = "30px Arial";
 	ctx.fillStyle = "white";
 	ctx.textAlign = "center";
 	ctx.fillText(SelectInfo.ShareChar.value.charName, 200, 400);
+
 	var refPoint = 0; // this is the y position of the last image placed in a row. used to calculate where the next row should start.
 	for (var i = 3; i > -4; i--) {
 		refPoint += 50;
 		var valueLabel = "";
 		if (i > 0) valueLabel = "+" + i;
 		else valueLabel = i;
-		ctx.fillText(valueLabel, 400, refPoint + 50);
+		ctx.font = "20px Arial";
+		ctx.textAlign = "center";
+		ctx.fillText(valueLabel, 400, refPoint + 35);
 		count = 0;
 		xCoord = 450;
 		for (c of SelectInfo.ShareChar.value.matchupArr) {
@@ -378,69 +390,16 @@ function ShareImage() { // Will replace the html generated on the Share overlay.
 			}
 			count++;
 		}
+		ctx.moveTo(400, refPoint + 50);
+		ctx.lineTo(800, refPoint + 50);
+		ctx.stroke();
 	}
-	document.body.appendChild(canvas); // FOR TESTING
 }
 
 function ShareCharButtonClick(char) {
 	SelectInfo.ShareChar = char;
 	UpdateShareScreen();
 }
-
-function UpdateShareScreen() {
-	var shareScreen = $("#ShareScreen");
-	var shareTiers = $("#ShareTiers");
-	var nullTier = $("#NullTier");
-	var shareImg = $("#ShareCharImgDiv");
-	var charLabel = $("#ShareCharLabel");
-
-	nullTier.empty();
-	shareImg.empty();
-	charLabel.empty();
-	for (var i = 0; i < 7; i++) {
-		shareTiers.children().eq(i).children(".ShareTierContent").empty();
-	}
-
-	if (SelectInfo.ShareChar == null) return;
-	else {
-
-		var img = document.createElement("IMG");
-		img.src = SelectInfo.ShareChar.value.portraitString;
-		img.style.width = "100%";
-		img.style.height = "100%";
-		img.id = "ShareCharImg";
-
-		shareImg.empty().append(img);
-
-		charLabel.html(SelectInfo.ShareChar.value.charName);
-
-		for (var char of CharacterDict) {
-			if (char.key == SelectInfo.ShareChar.key) continue;
-
-			var div = document.createElement("DIV");
-			div.className = "col-md-1 ShareCharTile";
-
-			var sprImg = document.createElement("IMG");
-			sprImg.src = char.value.spriteString;
-			sprImg.title = char.value.charName;
-			div.appendChild(sprImg);
-
-			var x = SelectInfo.ShareChar.value.matchupArr[char.key]
-
-			if (x == null) nullTier.append(div);
-			else if (x == 3) shareTiers.children().eq(0).children(".ShareTierContent").append(div); 
-			else if (x == 2) shareTiers.children().eq(1).children(".ShareTierContent").append(div);
-			else if (x == 1) shareTiers.children().eq(2).children(".ShareTierContent").append(div);
-			else if (x == 0) shareTiers.children().eq(3).children(".ShareTierContent").append(div);
-			else if (x == -1) shareTiers.children().eq(4).children(".ShareTierContent").append(div);
-			else if (x == -2) shareTiers.children().eq(5).children(".ShareTierContent").append(div);
-			else if (x == -3) shareTiers.children().eq(6).children(".ShareTierContent").append(div);
-		}
-	}
-
-	return;
-}
-
 
 
 function openShareNav() {
