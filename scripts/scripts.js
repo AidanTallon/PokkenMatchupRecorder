@@ -1,16 +1,22 @@
 var CharacterDict = []; // Stores all Character objects, with key equal to Character.charId (which is the same as the index of the character name in CharacterNamesArr).
 
-var SelectInfo = { // CharOne and CharTwo hold reference to characters currently selected.
-	CharOne:null,
-	CharTwo:null,
-	TrackBar:document.getElementById("MatchupTrackBar"), // Reference to trackbar for value and disabled
-	TrackBarLabel:document.getElementById("TrackBarLabel"), // label used to display matchup result
-	HelperText:document.getElementById("HelperText"), // span used to display text for clarity of what matchup result means
-	MatchupToggle:true, // Toggles if matchups are shown for charOne
-	ShareChar:null
+function InitializeCharacterDict() { // Populates CharacterDict with Character objects for each name in CharacterNamesArr.
+	for (var char of CharacterNamesArr) {
+		var newChar = {
+			charName:char,									// charName comes from CharacterNamesArr
+			charId:CharacterNamesArr.indexOf(char),						// charId comes from index of name in CharacterNamesArr. Is very important in determining layout. See PlaceButton() and PlaceShareButton() methods for more info.
+			matchupArr: new Array(CharacterNamesArr.length).fill(null),			// matchupArr contains value from -3 to 3 for each character in CharacterNamesArr. Index of value in array relates to charId
+			spriteString:"img/sprites/" + CharacterNamesArr.indexOf(char) + ".png",		// src location of sprite image png
+			portraitString:"img/portraits/" + CharacterNamesArr.indexOf(char) + ".png",	// src location of full character image png
+			button:null,									// button holds reference to character button on main select screen. 
+			matchupLabel:null, 								// matchupLabel is the label element that displays the matchup value between this character and CharOne when MatchupToggle is true. Is retrieved from CharOne.value.matchupArr[charId] where charId is Id of this char.
+			shareButton:null								// shareButton holds reference to character button on the share screen
+		};
+		CharacterDict.push({key:newChar.charId, value:newChar});
+	};
 };
 
-var CharacterNamesArr = ["Blaziken",
+var CharacterNamesArr = ["Blaziken",	// is used to generate Character objects in CharacterDict. CharacterNamesArr can be of any length, but adding/removing characters will mess with the formatting and layout of the page.
 			 "Pikachu",
 			 "Lucario",
 			 "Gardevoir",
@@ -27,36 +33,131 @@ var CharacterNamesArr = ["Blaziken",
 			 "Garchomp",
 			 "Shadow Mewtwo"]; // Index corresponds to character ID.
 
-function InitializeCharacterDict() { // Populates CharacterDict with Character objects for each name in CharacterNamesArr.
-	for (var char of CharacterNamesArr) {
-		var newChar = {
-			charName:char,
-			charId:CharacterNamesArr.indexOf(char),
-			matchupArr: new Array(CharacterNamesArr.length).fill(null),
-			spriteString:"img/sprites/" + CharacterNamesArr.indexOf(char) + ".png",
-			portraitString:"img/portraits/" + CharacterNamesArr.indexOf(char) + ".png",
-			button:null,
-			matchupLabel:null, // matchupLabel is the label element that displays the matchup value between this character and charOne when MatchupToggle is true
-			shareButton:null
-		};
-		CharacterDict.push({key:newChar.charId, value:newChar});
-	};
-	return;
+var SelectInfo = { 						// Object used for user interactivity. Holds reference to selected buttons and trackbar values etc.
+	CharOne:null,						// CharOne holds reference to primary character selected
+	CharTwo:null,						// CharTwo holds reference to secondary character selected
+	TrackBar:document.getElementById("MatchupTrackBar"), 	// Reference to trackbar for access to Trackbar.value and Trackbar.disabled
+	TrackBarLabel:document.getElementById("TrackBarLabel"), // label used to display matchup result above trackbar
+	HelperText:document.getElementById("HelperText"), 	// span used to display text for clarity of what matchup result means
+	MatchupToggle:true, 					// Toggles if matchups are shown for CharOne on character select buttons
+	ShareChar:null						// ShareChar is the equivalent of CharOne but for the share screen.
 };
 
-function ClearAllMatchups() { // Resets pretty much everything on page.
-	SelectInfo.CharOne = null;
-	SelectInfo.CharTwo = null;
-	ShowMatchups();
-	SelectInfo.TrackBar.disabled = true;
-	TrackBarChange(0);
-	UpdateCharacterSelectImage();
-	for (var c of CharacterDict) {
-		for (var i = 0; i < CharacterDict.length; i++) {
-			c.value.matchupArr[i] = null;
-		}
+function GenerateCharacterButtons() { // buttons are of class CharButton. They are referenced in CharacterDict[i].value.button. ShareButtons are of class ShareCharButton and are in CharacterDict[i].value.shareButton
+	for (var char of CharacterDict){					// goes through all characters and assigns value.button, value.matchupLabel and value.shareButton.
+		(function(char) {
+			char.value.button = NewCharButton(char);			
+			char.value.matchupLabel = char.value.button.getElementsByClassName("MatchupLabel")[0];
+
+			char.value.shareButton = NewShareButton(char);
+
+			PlaceButton(char.value.button, char.value.charId);			// function handles layout of CharacterDict.value.button
+
+			PlaceShareButton(char.value.shareButton, char.value.charId);		// function handles layout of CharacterDict.value.shareButton
+
+		})(char);
 	};
-	return;
+};
+
+function NewCharButton(char) { // takes character object as argument and returns a new character button with class CharButton
+	var newBtn = document.createElement("BUTTON");
+	newBtn.title = char.value.charName;
+	newBtn.className = "CharButton";
+	newBtn.addEventListener("click", function(){
+				CharButtonClick(char);
+				return;
+	});
+	newBtn.type = "button";
+
+	var img = document.createElement("IMG");
+	img.src = char.value.spriteString;
+	img.style.width = "100%";
+	img.style.height = "100%";
+	newBtn.appendChild(img);
+
+	var mLabel =  document.createElement("LABEL");
+	mLabel.text = "";
+	mLabel.className = "MatchupLabel";
+	newBtn.appendChild(mLabel);
+
+	return newBtn;
+}
+
+function NewShareButton(char) { // takes character object as argument and returns a new share button with class ShareCharButton
+	var shareBtn = document.createElement("BUTTON");
+	shareBtn.title = char.value.charName;
+	shareBtn.className = "ShareCharButton";
+	shareBtn.addEventListener("click", function() {
+				ShareCharButtonClick(char);
+				return;
+	});
+	shareBtn.type = "button";
+
+	var shareImg = document.createElement("IMG");
+	shareImg.src = char.value.spriteString;
+	shareImg.style.width = "100%";
+	shareImg.style.height = "100%";
+	shareBtn.appendChild(shareImg);
+
+	return shareBtn;
+}
+
+function PlaceButton(button, charId) {  // takes button and charId as argument and places button in HTML #CharContainer based on charId. layout is heavily dependent on charId being the order at which buttons should be in and there being the correct amount of characters
+					// if amount of characters changes, this is the function to alter to change the layout
+	var charContainer = $("#CharContainer");
+
+	var div = document.createElement("DIV");
+	div.className = "col-md-1 CharDiv";
+	div.appendChild(button);						// append button to div element
+
+	if (charId == 0 || charId == 5) {					// add empty div to beginning of row 1 and 2
+		var extraDiv = document.createElement("DIV");
+		extraDiv.className = "col-md-1";
+		charContainer.children().eq(charId/5).append(extraDiv);
+	}
+	else if (charId == 7) {							// add empty div before char 7 (middle slot)
+		var midDiv = document.createElement("DIV");
+		midDiv.className = "col-md-1 midDiv";
+		charContainer.children().eq(1).append(midDiv);
+	};
+
+	if (charId < 5) charContainer.children().eq(0).append(div);		// add div element to row 1
+	else if (charId < 9) charContainer.children().eq(1).append(div);	// add div element to row 2
+	else charContainer.children().eq(2).append(div);			// add div element to row 3
+}
+
+function PlaceShareButton(button, charId) { // takes button and charId as argument and places button in HTML #ShareCharContainer based on charId. layout is heavily dependent on charId being the order at which buttons should be in and the being the correct amount of characters
+				    	    // if amount of characters changes, this is the function to alter to change the layout
+	var shareContainer = $("#ShareCharContainer");
+
+	var div = document.createElement("DIV");
+	div.className = "col-md-1 ShareCharDiv";
+	div.appendChild(button);						// append button to div element
+
+	if (charId == 0 || charId == 8) {					// add offset class to 1st element of rows 1 and 2
+		div.className = "col-md-1 col-md-offset-2 ShareCharDiv";
+	}
+
+	if (charId < 8) shareContainer.children().eq(0).append(div);		// add div element to 1st row
+	else shareContainer.children().eq(1).append(div);			// add div element to 2nd row
+}
+
+function ClearAllMatchups() { 	// Deletes all records of matchups. Resets most things on page.
+	var prompt = window.confirm("Delete all records?");
+	if (!prompt) return;
+	else {
+		SelectInfo.CharOne = null;
+		SelectInfo.CharTwo = null;
+		ShowMatchups();
+		SelectInfo.TrackBar.disabled = true;
+		TrackBarChange(0);
+		UpdateCharacterSelectImage();
+		for (var c of CharacterDict) {
+			for (var i = 0; i < CharacterDict.length; i++) {
+				c.value.matchupArr[i] = null;
+			}
+		}
+	}
 }
 
 function LoadCharacterDict(evt) {
@@ -114,7 +215,6 @@ function RecordMatchup() {
 	SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key] = SelectInfo.TrackBar.value;
 	SelectInfo.CharTwo.value.matchupArr[SelectInfo.CharOne.key] = 0 - SelectInfo.TrackBar.value;
 	ShowMatchups();
-	return;
 };
 
 function DeleteSpecificMatchup() { // Delete specific matchup between CharOne and CharTwo
@@ -127,7 +227,6 @@ function DeleteSpecificMatchup() { // Delete specific matchup between CharOne an
 		};
 	};
 	ShowMatchups();
-	return;
 }
 
 function DeleteCharactersMatchups() { // Delete all of CharOnes matchups
@@ -142,7 +241,6 @@ function DeleteCharactersMatchups() { // Delete all of CharOnes matchups
 		}
 	}
 	ShowMatchups();
-	return;
 }
 
 function ShowMatchups() {
@@ -163,7 +261,6 @@ function ShowMatchups() {
 			}
 		};
 	};
-	return;
 };
 
 function ClickMatchupToggle() { // Switches value of MatchupToggle.Show and changes text in MatchupToggleButton.
@@ -176,7 +273,6 @@ function ClickMatchupToggle() { // Switches value of MatchupToggle.Show and chan
 		document.getElementById("MatchupToggleButton").innerHTML = "Show Matchups";
 	};
 	ShowMatchups();
-	return;
 };
 
 function CharButtonClick(char) { // assigns characters to SelectInfo.CharOne and CharTwo. Also enables and disables MatchupTrackBar. Calls UpdateCharacterSelectImage().
@@ -208,7 +304,6 @@ function CharButtonClick(char) { // assigns characters to SelectInfo.CharOne and
 	};
 	ShowMatchups();
 	UpdateCharacterSelectImage();
-	return;
 };
 
 function TrackBarChange(value) { // Updates TrackBarLabel and HelperText
@@ -229,8 +324,7 @@ function TrackBarChange(value) { // Updates TrackBarLabel and HelperText
 		SelectInfo.TrackBar.value = 0;
 		SelectInfo.TrackBarLabel.innerHTML = "";
 		SelectInfo.HelperText.innerHTML = "";
-	};
-	return;			 
+	};		 
 };
 
 function UpdateCharacterSelectImage() {
@@ -252,85 +346,6 @@ function UpdateCharacterSelectImage() {
 	} else {
 		$("#CharTwoImage").empty();
 	};
-	return;
-};
-
-function GenerateCharacterButtons() { // buttons are of class CharButton. They are referenced in CharacterDict[i].value.button. ShareButtons are of class ShareCharButton and are in CharacterDict[i].value.shareButton
-	var charContainer = $("#CharContainer");
-	var shareContainer = $("#ShareCharContainer");
-	for (var char of CharacterDict){
-		(function(char) {
-			var newBtn = document.createElement("BUTTON");
-			newBtn.title = char.value.charName;
-			newBtn.className = "CharButton";
-			newBtn.addEventListener("click", function(){
-					CharButtonClick(char);
-					return;
-			});
-			newBtn.type = "button";
-
-			var shareBtn = document.createElement("BUTTON");
-			shareBtn.title = char.value.charName;
-			shareBtn.className = "ShareCharButton";
-			shareBtn.addEventListener("click", function(){
-					ShareCharButtonClick(char);
-					return;
-			});
-			shareBtn.type = "button";
-
-			var img = document.createElement("IMG");
-			img.src = char.value.spriteString;
-			img.style.width = "100%";
-			img.style.height = "100%";
-			newBtn.appendChild(img);
-
-			var shareImg = document.createElement("IMG");
-			shareImg.src = char.value.spriteString;
-			shareImg.style.width = "100%";
-			shareImg.style.height = "100%";
-			shareBtn.appendChild(shareImg);
-
-			var mLabel = document.createElement("LABEL");
-			mLabel.text = "";
-			mLabel.className = "MatchupLabel";
-			newBtn.appendChild(mLabel);
-
-			char.value.matchupLabel = mLabel;
-			char.value.button = newBtn;
-			char.value.shareButton = shareBtn;
-
-			var div = document.createElement("DIV");
-			div.className = "col-md-1 CharDiv";
-			div.appendChild(newBtn);
-
-			if (char.value.charId == 0 || char.value.charId == 5) {
-				var extraDiv = document.createElement("DIV");
-				extraDiv.className = "col-md-1";
-				charContainer.children().eq(char.value.charId/5).append(extraDiv);
-			}
-			else if (char.value.charId == 7) {
-				var midDiv = document.createElement("DIV");
-				midDiv.className = "col-md-1 midDiv";
-				charContainer.children().eq(1).append(midDiv);
-			}; // these statements format the spaces at beginning/middle of rows
-
-			if (char.value.charId < 5) charContainer.children().eq(0).append(div);
-			else if (char.value.charId < 9) charContainer.children().eq(1).append(div);
-			else charContainer.children().eq(2).append(div); // These lines are for formatting layout of CharButtons
-
-			var shareDiv = document.createElement("DIV");
-			shareDiv.className = "col-md-1 ShareCharDiv";
-			shareDiv.appendChild(shareBtn);
-			
-			if (char.value.charId == 0 || char.value.charId == 8) {
-				shareDiv.className = "col-md-1 col-md-offset-2 ShareCharDiv";
-			}
-			
-			if (char.value.charId < 8) shareContainer.children().eq(0).append(shareDiv);
-			else shareContainer.children().eq(1).append(shareDiv);
-		})(char);
-	};
-	return;
 };
 
 function UpdateShareScreen() { // Will replace the html generated on the Share overlay.
@@ -425,5 +440,4 @@ function closeHelpNav() {
 $(document).ready(function() {
 	InitializeCharacterDict();
 	GenerateCharacterButtons();
-	return;
 });
