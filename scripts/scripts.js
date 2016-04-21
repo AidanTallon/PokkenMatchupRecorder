@@ -81,7 +81,7 @@ function NewCharButton(char) { // takes character object as argument and returns
 	newBtn.appendChild(mLabel);
 
 	return newBtn;
-}
+};
 
 function NewShareButton(char) { // takes character object as argument and returns a new share button with class ShareCharButton
 	var shareBtn = document.createElement("BUTTON");
@@ -100,7 +100,7 @@ function NewShareButton(char) { // takes character object as argument and return
 	shareBtn.appendChild(shareImg);
 
 	return shareBtn;
-}
+};
 
 function PlaceButton(button, charId) {  // takes button and charId as argument and places button in HTML #CharContainer based on charId. layout is heavily dependent on charId being the order at which buttons should be in and there being the correct amount of characters
 					// if amount of characters changes, this is the function to alter to change the layout
@@ -124,7 +124,7 @@ function PlaceButton(button, charId) {  // takes button and charId as argument a
 	if (charId < 5) charContainer.children().eq(0).append(div);		// add div element to row 1
 	else if (charId < 9) charContainer.children().eq(1).append(div);	// add div element to row 2
 	else charContainer.children().eq(2).append(div);			// add div element to row 3
-}
+};
 
 function PlaceShareButton(button, charId) { // takes button and charId as argument and places button in HTML #ShareCharContainer based on charId. layout is heavily dependent on charId being the order at which buttons should be in and the being the correct amount of characters
 				    	    // if amount of characters changes, this is the function to alter to change the layout
@@ -140,7 +140,7 @@ function PlaceShareButton(button, charId) { // takes button and charId as argume
 
 	if (charId < 8) shareContainer.children().eq(0).append(div);		// add div element to 1st row
 	else shareContainer.children().eq(1).append(div);			// add div element to 2nd row
-}
+};
 
 function ClearAllMatchups() { 	// Deletes all records of matchups. Resets most things on page.
 	var prompt = window.confirm("Delete all records?");
@@ -158,7 +158,7 @@ function ClearAllMatchups() { 	// Deletes all records of matchups. Resets most t
 			}
 		}
 	}
-}
+};
 
 function LoadCharacterDict(evt) {
 	SelectInfo.CharOne = null;
@@ -350,7 +350,7 @@ function UpdateCharacterSelectImage() {
 
 function UpdateShareScreen() { // Will replace the html generated on the Share overlay.
 	if (SelectInfo.ShareChar == null) {
-		$("#ShareCanvas").empty;
+		document.getElementById("ShareCanvas").getContext("2d").clearRect(0, 0, 800, 500);
 		return;
 	}
 	var canvas = document.getElementById("ShareCanvas");
@@ -385,7 +385,8 @@ function UpdateShareScreen() { // Will replace the html generated on the Share o
 		count = 0;
 		xCoord = 450;
 		for (c of SelectInfo.ShareChar.value.matchupArr) {
-			if (c == i) {
+			if (c == "") continue;
+			else if (c == i) {
 				if (xCoord != 800) {
 					var sprImage = document.createElement("IMG");
 					sprImage.src = CharacterDict[count].value.spriteString;
