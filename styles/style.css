@@ -2,6 +2,40 @@ body {
 	background: #222;
 }
 
+.RemoveBtn {
+	float: left;
+	height: 300px;
+	background: none;
+	outline: none;
+	border: none;
+	color: white;
+	font-size: 40px;
+	width: 40px;
+}
+
+.RemoveBtn:hover {
+	background-color: #234366;
+	opacity: 0.8;
+	color: #C20000;	
+	transition-duration: 0.5s;
+}
+
+.RemoveBtn:active {
+	background-color: #E00000;
+	transition-duration: 0.1s;
+}
+
+
+.CharacterPortrait {
+	position: absolute;
+	height: 300px;
+	z-index: -1;
+}
+
+.CharacterPortraitDiv {
+	position: absolute;
+}
+
 @media (min-width: 768px) {
 	.seven-cols .col-md-1,
 	.seven-cols .col-sm-1,

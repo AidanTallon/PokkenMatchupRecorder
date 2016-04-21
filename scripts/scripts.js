@@ -331,18 +331,38 @@ function UpdateCharacterSelectImage() {
 	if (SelectInfo.CharOne != null) {
 		var newImg = document.createElement("IMG");
 		newImg.src = SelectInfo.CharOne.value.portraitString;
-		newImg.height = 300;
+		newImg.className = "CharacterPortrait";
 		var div = $("#CharOneImage");
 		div.empty().append(newImg);
+
+		var newRmvBtn = document.createElement("BUTTON");
+		newRmvBtn.className = "RemoveBtn";
+		newRmvBtn.type = "button";
+		newRmvBtn.innerHTML = "&times;";
+		newRmvBtn.addEventListener("click", function(){
+			CharButtonClick(SelectInfo.CharOne);
+			return;
+		});
+		div.append(newRmvBtn);
 	} else {
 		$("#CharOneImage").empty();
 	};
 	if (SelectInfo.CharTwo != null) {
 		var newImg = document.createElement("IMG");
 		newImg.src = SelectInfo.CharTwo.value.portraitString;
-		newImg.height = 300;
+		newImg.className = "CharacterPortrait";
 		var div = $("#CharTwoImage");
 		div.empty().append(newImg);
+
+		var newRmvBtn = document.createElement("BUTTON");
+		newRmvBtn.className = "RemoveBtn";
+		newRmvBtn.type = "button";
+		newRmvBtn.innerHTML = "&times;";
+		newRmvBtn.addEventListener("click", function(){
+			CharButtonClick(SelectInfo.CharTwo);
+			return;
+		});
+		div.append(newRmvBtn);
 	} else {
 		$("#CharTwoImage").empty();
 	};
