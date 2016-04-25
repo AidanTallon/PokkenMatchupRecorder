@@ -40,13 +40,15 @@ var SelectInfo = { 						// Object used for user interactivity. Holds reference 
 	TrackBarLabel:document.getElementById("TrackBarLabel"), // label used to display matchup result above trackbar
 	HelperText:document.getElementById("HelperText"), 	// span used to display text for clarity of what matchup result means
 	MatchupToggle:true, 					// Toggles if matchups are shown for CharOne on character select buttons
-	ShareChar:null						// ShareChar is the equivalent of CharOne but for the share screen.
+	ShareChar:null,						// ShareChar is the equivalent of CharOne but for the share screen.
+	ClearToggle:false					// When true, activate delete character matchups mode
 };
 
 var DocInfo = {
 	CharOne:null,
 	CharTwo:null,
-	Canvas:null
+	Canvas:null,
+	ClearAllButton:null
 }
 
 function InitializeDocInfo() {
@@ -88,6 +90,9 @@ function InitializeDocInfo() {
 	DocInfo.CharTwo.Portrait.style.display = "none";
 	DocInfo.CharOne.RemoveButton.style.display = "none";
 	DocInfo.CharTwo.RemoveButton.style.display = "none";
+
+	DocInfo.ClearAllButton = document.getElementById("ClearAllButton");
+	DocInfo.ClearAllButton.style.display = "none";
 }
 
 function GenerateCharacterButtons() { // buttons are of class CharButton. They are referenced in CharacterDict[i].value.button. ShareButtons are of class ShareCharButton and are in CharacterDict[i].value.shareButton
@@ -110,9 +115,9 @@ function NewCharButton(char) { // takes character object as argument and returns
 	var newBtn = document.createElement("BUTTON");
 	newBtn.title = char.value.charName;
 	newBtn.className = "CharButton";
-	newBtn.addEventListener("click", function(){
-				CharButtonClick(char);
-				return;
+	newBtn.addEventListener("click", function() {
+		CharButtonClick(char)
+		return;
 	});
 	newBtn.type = "button";
 
@@ -188,6 +193,37 @@ function PlaceShareButton(button, charId) { // takes button and charId as argume
 	if (charId < 8) shareContainer.children().eq(0).append(div);		// add div element to 1st row
 	else shareContainer.children().eq(1).append(div);			// add div element to 2nd row
 };
+
+function ClearButtonClick(button) {
+	if (SelectInfo.ClearToggle) {
+		DisableClearMode(button);
+		SelectInfo.ClearToggle = false;
+		button.style.background = "#333";
+	}
+	else if (!SelectInfo.ClearToggle) {
+		EnableClearMode(button);
+		SelectInfo.ClearToggle = true;
+		button.style.background = "#C20000";
+	}
+};
+
+function EnableClearMode(button) {
+	SelectInfo.ClearToggle = true;
+	button.style.background = "#C20000";
+	for (char of CharacterDict) {
+		char.value.button.className = "CharButtonClearMode";
+	}
+	DocInfo.ClearAllButton.style.display = "block";
+}
+
+function DisableClearMode(button) {
+	SelectInfo.ClearToggle = false;
+	button.style.backgronud = "#333";
+	for (char of CharacterDict) {
+		char.value.button.className = "CharButton";
+	}
+	DocInfo.ClearAllButton.style.display = "none";
+}
 
 function ClearAllMatchups() { 	// Deletes all records of matchups. Resets most things on page.
 	var prompt = window.confirm("Delete all records?");
@@ -276,17 +312,14 @@ function DeleteSpecificMatchup() { // Delete specific matchup between CharOne an
 	ShowMatchups();
 }
 
-function DeleteCharactersMatchups() { // Delete all of CharOnes matchups
-	if (SelectInfo.CharOne == null) window.alert("Please select character first.");
-	else {
-		var prompt = window.confirm("Delete all records for this character?");
-		if (prompt == true) {
-			for (var i = 0; i < CharacterDict.length; i++) {
-				SelectInfo.CharOne.value.matchupArr[i] = null;
-				CharacterDict[i].value.matchupArr[SelectInfo.CharOne.key] = null;
+function DeleteCharactersMatchups(char) { // Delete all of CharOnes matchups
+	var prompt = window.confirm("Delete all records for this character?");
+	if (prompt == true) {
+		for (var i = 0; i < CharacterDict.length; i++) {
+			char.value.matchupArr[i] = null;
+			CharacterDict[i].value.matchupArr[char.key] = null;
 			};
 		}
-	}
 	ShowMatchups();
 }
 
@@ -323,31 +356,34 @@ function ClickMatchupToggle() { // Switches value of MatchupToggle.Show and chan
 };
 
 function CharButtonClick(char) { // assigns characters to SelectInfo.CharOne and CharTwo. Also enables and disables MatchupTrackBar. Calls UpdateCharacterSelectImage().
-	if (SelectInfo.CharOne == char) {
-		SelectInfo.CharOne = null;
-		SelectInfo.CharTwo = null;
-		SelectInfo.TrackBar.disabled = true;
-		TrackBarChange(0);	
-	}
-	else if (SelectInfo.CharOne == null) {
-		SelectInfo.CharOne = char;
-		SelectInfo.CharTwo = null;
-		SelectInfo.TrackBar.disabled = true;
-		TrackBarChange(0);	
-	}
-	else if (SelectInfo.CharTwo == char) {
-		SelectInfo.CharTwo = null;
-		SelectInfo.TrackBar.disabled = true;
-		TrackBarChange(0);	
-	}
-	else if (SelectInfo.CharOne != null && SelectInfo.CharTwo != char) {
-		SelectInfo.CharTwo = char;
-		SelectInfo.TrackBar.disabled = false;	
-		if (SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key] != null) {
-			SelectInfo.TrackBar.value = SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key];
-			TrackBarChange(SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key]); // Default value of trackbar is the stored matchup if it exists
+	if (SelectInfo.ClearToggle) DeleteCharactersMatchups(char);
+	else {
+		if (SelectInfo.CharOne == char) {
+			SelectInfo.CharOne = null;
+			SelectInfo.CharTwo = null;
+			SelectInfo.TrackBar.disabled = true;
+			TrackBarChange(0);	
 		}
-		else TrackBarChange(0);
+		else if (SelectInfo.CharOne == null) {
+			SelectInfo.CharOne = char;
+			SelectInfo.CharTwo = null;
+			SelectInfo.TrackBar.disabled = true;
+			TrackBarChange(0);	
+		}
+		else if (SelectInfo.CharTwo == char) {
+			SelectInfo.CharTwo = null;
+			SelectInfo.TrackBar.disabled = true;
+			TrackBarChange(0);	
+		}
+		else if (SelectInfo.CharOne != null && SelectInfo.CharTwo != char) {
+			SelectInfo.CharTwo = char;
+			SelectInfo.TrackBar.disabled = false;	
+			if (SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key] != null) {
+				SelectInfo.TrackBar.value = SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key];
+				TrackBarChange(SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key]); // Default value of trackbar is the stored matchup if it exists
+			}
+			else TrackBarChange(0);
+		}
 	};
 	ShowMatchups();
 	UpdateCharacterSelectImage();

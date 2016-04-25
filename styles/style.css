@@ -81,6 +81,22 @@ body {
 	background-color: #E00000;
 }
 
+.CharButtonClearMode {
+	background-color: #313131;
+	height: 90px;
+	width: 100px;
+	border: none;
+	outline: none;
+}
+
+.CharButtonClearMode:hover {
+	background-color: #C20000;
+}
+
+.CharButtonClearMode:active {
+	background-color: #E00000;
+}
+
 .CharDiv {
 	height: 100px;
 }

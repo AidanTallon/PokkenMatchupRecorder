@@ -16,12 +16,13 @@
 <div id="Toolbar">
 	<ul>
 		<li><h7>Pokken Matchup Recorder</h7></li>
-		<li><button onclick="ClearAllMatchups()">Clear</button></li>
+		<li><button onclick="ClearButtonClick(this)">Clear</button></li>
 		<li><input id="FileInput" type="file" style="visibility:hidden" /><button onclick="$('#FileInput').click();">Load</button></li>
 		<li><button onclick="ExportCharacterDict()">Save</button></li>
 		<li><button onclick="openHelpNav()">Help</button></li>
 		<li><button onclick="openShareNav()">Share</button></li>
 	</ul>
+	<button id="ClearAllButton" onclick="ClearAllMatchups()">Clear All</button>
 </div>
 
 
