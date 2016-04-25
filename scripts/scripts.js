@@ -43,6 +43,53 @@ var SelectInfo = { 						// Object used for user interactivity. Holds reference 
 	ShareChar:null						// ShareChar is the equivalent of CharOne but for the share screen.
 };
 
+var DocInfo = {
+	CharOne:null,
+	CharTwo:null,
+	Canvas:null
+}
+
+function InitializeDocInfo() {
+	var newCharInfo = {
+		Portrait:null,
+		RemoveButton:null,
+	}
+	var anotherNewCharInfo = {
+		Portrait:null,
+		RemoveButton:null,
+	}
+	DocInfo.CharOne = newCharInfo;
+	DocInfo.CharTwo = anotherNewCharInfo;
+
+	DocInfo.CharOne.Portrait = document.getElementById("CharOnePortrait");
+	DocInfo.CharOne.Portrait.className = "CharacterPortrait";
+	DocInfo.CharTwo.Portrait = document.getElementById("CharTwoPortrait");
+	DocInfo.CharTwo.Portrait.className = "CharacterPortrait";
+
+	DocInfo.CharOne.RemoveButton = document.getElementById("CharOneRemoveButton");
+	DocInfo.CharOne.RemoveButton.className = "RemoveBtn";
+	DocInfo.CharOne.RemoveButton.type = "button";
+	DocInfo.CharOne.RemoveButton.innerHTML = "&times;";
+	DocInfo.CharOne.RemoveButton.addEventListener("click", function(){
+		CharButtonClick(SelectInfo.CharOne);
+		return;
+	});
+
+	DocInfo.CharTwo.RemoveButton = document.getElementById("CharTwoRemoveButton");
+	DocInfo.CharTwo.RemoveButton.className = "RemoveBtn";
+	DocInfo.CharTwo.RemoveButton.type = "button";
+	DocInfo.CharTwo.RemoveButton.innerHTML = "&times;";
+	DocInfo.CharOne.RemoveButton.addEventListener("click", function(){
+		CharButtonClick(SelectInfo.CharTwo);
+		return;
+	});
+
+	DocInfo.CharOne.Portrait.style.display = "none";
+	DocInfo.CharTwo.Portrait.style.display = "none";
+	DocInfo.CharOne.RemoveButton.style.display = "none";
+	DocInfo.CharTwo.RemoveButton.style.display = "none";
+}
+
 function GenerateCharacterButtons() { // buttons are of class CharButton. They are referenced in CharacterDict[i].value.button. ShareButtons are of class ShareCharButton and are in CharacterDict[i].value.shareButton
 	for (var char of CharacterDict){					// goes through all characters and assigns value.button, value.matchupLabel and value.shareButton.
 		(function(char) {
@@ -329,42 +376,24 @@ function TrackBarChange(value) { // Updates TrackBarLabel and HelperText
 
 function UpdateCharacterSelectImage() {
 	if (SelectInfo.CharOne != null) {
-		var newImg = document.createElement("IMG");
-		newImg.src = SelectInfo.CharOne.value.portraitString;
-		newImg.className = "CharacterPortrait";
-		var div = $("#CharOneImage");
-		div.empty().append(newImg);
+		DocInfo.CharOne.Portrait.src = SelectInfo.CharOne.value.portraitString;
+		DocInfo.CharOne.Portrait.style.display = "block";
 
-		var newRmvBtn = document.createElement("BUTTON");
-		newRmvBtn.className = "RemoveBtn";
-		newRmvBtn.type = "button";
-		newRmvBtn.innerHTML = "&times;";
-		newRmvBtn.addEventListener("click", function(){
-			CharButtonClick(SelectInfo.CharOne);
-			return;
-		});
-		div.append(newRmvBtn);
+		DocInfo.CharOne.RemoveButton.style.display = "block";
 	} else {
-		$("#CharOneImage").empty();
+		DocInfo.CharOne.Portrait.style.display = "none";
+
+		DocInfo.CharOne.RemoveButton.style.display = "none";
 	};
 	if (SelectInfo.CharTwo != null) {
-		var newImg = document.createElement("IMG");
-		newImg.src = SelectInfo.CharTwo.value.portraitString;
-		newImg.className = "CharacterPortrait";
-		var div = $("#CharTwoImage");
-		div.empty().append(newImg);
+		DocInfo.CharTwo.Portrait.src = SelectInfo.CharTwo.value.portraitString;
+		DocInfo.CharTwo.Portrait.style.display = "block";
 
-		var newRmvBtn = document.createElement("BUTTON");
-		newRmvBtn.className = "RemoveBtn";
-		newRmvBtn.type = "button";
-		newRmvBtn.innerHTML = "&times;";
-		newRmvBtn.addEventListener("click", function(){
-			CharButtonClick(SelectInfo.CharTwo);
-			return;
-		});
-		div.append(newRmvBtn);
+		DocInfo.CharTwo.RemoveButton.style.display = "block";
 	} else {
-		$("#CharTwoImage").empty();
+		DocInfo.CharTwo.Portrait.style.display = "none";
+
+		DocInfo.CharTwo.RemoveButton.style.display = "none";
 	};
 };
 
@@ -460,5 +489,6 @@ function closeHelpNav() {
 
 $(document).ready(function() {
 	InitializeCharacterDict();
+	InitializeDocInfo();
 	GenerateCharacterButtons();
 });

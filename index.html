@@ -63,19 +63,22 @@
 		<div class="row">
 			<button id="MatchupToggleButton" onclick="ClickMatchupToggle()" class="btn" type="button">Hide Matchups</button>
 			<div class="col-md-4">
-				<!-- <button type="button" id="CharOneRemoveBtn" class="RemoveBtn">&times;</button> -->
 				<div id="CharOneImage" class="CharacterPortraitDiv"> <!-- CharOne Image -->
+				<img id="CharOnePortrait" />
+				<button id="CharOneRemoveButton"></>
 				</div>
 			</div>
 			<div class="col-md-2 MiddleSelectDiv">
 				<input type="range" min="-3" max="3" value="0" onchange="TrackBarChange(this.value)" name="result" id="MatchupTrackBar" disabled="true"/>
 				<label id="TrackBarLabel"></label>
 				<span id="HelperText"></span>
-				<input class="SubmitButton" type="button" value="Submit" onclick="RecordMatchup();return false" />
+				<input class="SubmitButton btn" type="button" value="Submit" onclick="RecordMatchup();return false" />
+				<button class="DeleteMatchupButton btn" type="btn" onclick="DeleteSpecificMatchup()">Delete Matchup</button>
 			</div>
 			<div class="col-md-4">
-				<!-- <button type="button" id="CharTwoRemoveBtn" class="RemoveBtn">&times;</button> -->
 				<div id="CharTwoImage" class="CharacterPortraitDiv"> <!-- CharTwo Image -->
+				<img id="CharTwoPortrait" />
+				<button id="CharTwoRemoveButton"></>
 				</div>
 			</div>
 		</div>
