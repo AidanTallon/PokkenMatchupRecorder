@@ -81,7 +81,7 @@ function InitializeDocInfo() {
 	DocInfo.CharTwo.RemoveButton.className = "RemoveBtn";
 	DocInfo.CharTwo.RemoveButton.type = "button";
 	DocInfo.CharTwo.RemoveButton.innerHTML = "&times;";
-	DocInfo.CharOne.RemoveButton.addEventListener("click", function(){
+	DocInfo.CharTwo.RemoveButton.addEventListener("click", function(){
 		CharButtonClick(SelectInfo.CharTwo);
 		return;
 	});
@@ -159,17 +159,17 @@ function PlaceButton(button, charId) {  // takes button and charId as argument a
 	var charContainer = $("#CharContainer");
 
 	var div = document.createElement("DIV");
-	div.className = "col-md-1 CharDiv";
+	div.className = "col-md-1 col-xs-1 CharDiv";
 	div.appendChild(button);						// append button to div element
 
 	if (charId == 0 || charId == 5) {					// add empty div to beginning of row 1 and 2
 		var extraDiv = document.createElement("DIV");
-		extraDiv.className = "col-md-1";
+		extraDiv.className = "col-md-1 col-xs-1";
 		charContainer.children().eq(charId/5).append(extraDiv);
 	}
 	else if (charId == 7) {							// add empty div before char 7 (middle slot)
 		var midDiv = document.createElement("DIV");
-		midDiv.className = "col-md-1 midDiv";
+		midDiv.className = "col-md-1 col-xs-1 midDiv";
 		charContainer.children().eq(1).append(midDiv);
 	};
 
@@ -183,11 +183,11 @@ function PlaceShareButton(button, charId) { // takes button and charId as argume
 	var shareContainer = $("#ShareCharContainer");
 
 	var div = document.createElement("DIV");
-	div.className = "col-md-1 ShareCharDiv";
+	div.className = "col-md-1 col-xs-1 ShareCharDiv";
 	div.appendChild(button);						// append button to div element
 
 	if (charId == 0 || charId == 8) {					// add offset class to 1st element of rows 1 and 2
-		div.className = "col-md-1 col-md-offset-2 ShareCharDiv";
+		div.className = "col-md-1 col-xs-1 col-md-offset-2 col-xs-offset-2 ShareCharDiv";
 	}
 
 	if (charId < 8) shareContainer.children().eq(0).append(div);		// add div element to 1st row
@@ -434,12 +434,12 @@ function UpdateCharacterSelectImage() {
 };
 
 function UpdateShareScreen() { // Will replace the html generated on the Share overlay.
-	if (SelectInfo.ShareChar == null) {
-		document.getElementById("ShareCanvas").getContext("2d").clearRect(0, 0, 800, 500);
-		return;
-	}
+
 	var canvas = document.getElementById("ShareCanvas");
 	var ctx = canvas.getContext("2d");
+	canvas.width = canvas.width; // clears canvas
+
+	if (SelectInfo.ShareChar == null) return;
 
 	ctx.canvas.width = 800;
 	ctx.canvas.height = 500;
@@ -470,7 +470,10 @@ function UpdateShareScreen() { // Will replace the html generated on the Share o
 		count = 0;
 		xCoord = 450;
 		for (c of SelectInfo.ShareChar.value.matchupArr) {
-			if (c == "") continue;
+			if (c == "") {
+				count++;
+				continue;
+			}
 			else if (c == i) {
 				if (xCoord != 800) {
 					var sprImage = document.createElement("IMG");

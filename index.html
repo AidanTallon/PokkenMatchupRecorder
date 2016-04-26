@@ -17,12 +17,12 @@
 	<ul>
 		<li><h7>Pokken Matchup Recorder</h7></li>
 		<li><button onclick="ClearButtonClick(this)">Clear</button></li>
+		<li><button id="ClearAllButton" onclick="ClearAllMatchups()">Clear All</button></li>
 		<li><input id="FileInput" type="file" style="visibility:hidden" /><button onclick="$('#FileInput').click();">Load</button></li>
 		<li><button onclick="ExportCharacterDict()">Save</button></li>
 		<li><button onclick="openHelpNav()">Help</button></li>
 		<li><button onclick="openShareNav()">Share</button></li>
 	</ul>
-	<button id="ClearAllButton" onclick="ClearAllMatchups()">Clear All</button>
 </div>
 
 
@@ -62,24 +62,24 @@
 	</div>
 	<div id="SelectContainer" class="container"> <!-- Shows currently selected characters, and options for recording matchup -->
 		<div class="row">
-			<button id="MatchupToggleButton" onclick="ClickMatchupToggle()" class="btn" type="button">Hide Matchups</button>
-			<div class="col-md-4">
+			<button id="MatchupToggleButton" class="btn btn-info" onclick="ClickMatchupToggle()" class="btn" type="button">Hide Matchups</button>
+			<div class="col-md-4 col-xs-4">
 				<div id="CharOneImage" class="CharacterPortraitDiv"> <!-- CharOne Image -->
 				<img id="CharOnePortrait" />
-				<button id="CharOneRemoveButton"></>
+				<button id="CharOneRemoveButton"></button>
 				</div>
 			</div>
-			<div class="col-md-2 MiddleSelectDiv">
+			<div class="col-md-2 col-xs-4 MiddleSelectDiv">
 				<input type="range" min="-3" max="3" value="0" onchange="TrackBarChange(this.value)" name="result" id="MatchupTrackBar" disabled="true"/>
 				<label id="TrackBarLabel"></label>
 				<span id="HelperText"></span>
-				<input class="SubmitButton btn" type="button" value="Submit" onclick="RecordMatchup();return false" />
-				<button class="DeleteMatchupButton btn" type="btn" onclick="DeleteSpecificMatchup()">Delete Matchup</button>
+				<input class="SubmitButton btn btn-primary" type="button" value="Submit" onclick="RecordMatchup();return false" />
+				<button class="DeleteMatchupButton btn btn-danger" type="btn" onclick="DeleteSpecificMatchup()">! Delete Matchup</button>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-4 col-xs-4">
 				<div id="CharTwoImage" class="CharacterPortraitDiv"> <!-- CharTwo Image -->
 				<img id="CharTwoPortrait" />
-				<button id="CharTwoRemoveButton"></>
+				<button id="CharTwoRemoveButton"></button>
 				</div>
 			</div>
 		</div>
