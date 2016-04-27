@@ -488,8 +488,13 @@ function ShareCharButtonClick(char) {
 }
 
 
+function clickShareNav() {
+	if (document.getElementById("ShareOverlay").style.height == "0%") openShareNav();
+	else if (document.getElementById("ShareOverlay").style.height == "100%") closeShareNav();
+}
+
 function openShareNav() {
-	document.getElementById("HelpOverlay").style.height = "0%";
+	closeHelpNav();
 	document.getElementById("ShareOverlay").style.height = "100%";
 }
 
@@ -499,8 +504,13 @@ function closeShareNav() {
 	document.getElementById("ShareOverlay").style.height = "0%";
 }
 
+function clickHelpNav() {
+	if (document.getElementById("HelpOverlay").style.height == "0%") openHelpNav();
+	else if (document.getElementById("HelpOverlay").style.height == "100%") closeHelpNav();
+}
+
 function openHelpNav() {
-	document.getElementById("ShareOverlay").style.height = "0%";
+	closeShareNav();
 	document.getElementById("HelpOverlay").style.height = "100%";
 }
 
@@ -512,4 +522,6 @@ $(document).ready(function() {
 	InitializeCharacterDict();
 	InitializeDocInfo();
 	GenerateCharacterButtons();
+	document.getElementById("ShareOverlay").style.height = "0%";
+	document.getElementById("HelpOverlay").style.height = "0%";
 });
