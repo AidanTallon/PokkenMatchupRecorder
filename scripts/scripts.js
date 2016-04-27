@@ -252,6 +252,8 @@ function LoadCharacterDict(evt) {
 	} else {
 		alert("The File APIs are not fully supported by your browser.");
 	};
+	SelectInfo.ShareChar = null;
+	UpdateShareScreen();
 };
 
 document.getElementById("FileInput").addEventListener("change", LoadCharacterDict, false);
