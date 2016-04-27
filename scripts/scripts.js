@@ -156,26 +156,8 @@ function NewShareButton(char) { // takes character object as argument and return
 
 function PlaceButton(button, charId) {  // takes button and charId as argument and places button in HTML #CharContainer based on charId. layout is heavily dependent on charId being the order at which buttons should be in and there being the correct amount of characters
 					// if amount of characters changes, this is the function to alter to change the layout
-	var charContainer = $("#CharContainer");
-
-	var div = document.createElement("DIV");
-	div.className = "col-md-1 col-xs-1 CharDiv";
+	var div = document.getElementById("CharDiv" + charId);
 	div.appendChild(button);						// append button to div element
-
-	if (charId == 0 || charId == 5) {					// add empty div to beginning of row 1 and 2
-		var extraDiv = document.createElement("DIV");
-		extraDiv.className = "col-md-1 col-xs-1";
-		charContainer.children().eq(charId/5).append(extraDiv);
-	}
-	else if (charId == 7) {							// add empty div before char 7 (middle slot)
-		var midDiv = document.createElement("DIV");
-		midDiv.className = "col-md-1 col-xs-1 midDiv";
-		charContainer.children().eq(1).append(midDiv);
-	};
-
-	if (charId < 5) charContainer.children().eq(0).append(div);		// add div element to row 1
-	else if (charId < 9) charContainer.children().eq(1).append(div);	// add div element to row 2
-	else charContainer.children().eq(2).append(div);			// add div element to row 3
 };
 
 function PlaceShareButton(button, charId) { // takes button and charId as argument and places button in HTML #ShareCharContainer based on charId. layout is heavily dependent on charId being the order at which buttons should be in and the being the correct amount of characters
