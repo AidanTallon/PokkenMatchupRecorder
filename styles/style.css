@@ -99,6 +99,7 @@ body {
 	text-decoration: none;
 	border: none;
 	width: 120px;
+	outline: none;
 }
 
 #Toolbar li input {
@@ -142,7 +143,6 @@ body {
 .CharButtonClearMode {
 	background-color: #313131;
 	height: 90px;
-	width: 100px;
 	border: none;
 	outline: none;
 }
