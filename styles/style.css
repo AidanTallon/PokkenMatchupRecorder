@@ -156,6 +156,7 @@ body {
 }
 
 .MatchupLabel {
+	display: block;
 	position: relative;
 	bottom: 20px;
 	right: -40px;

@@ -148,26 +148,26 @@ function NewShareButton(char) { // takes character object as argument and return
 	return shareBtn;
 };
 
-function PlaceButton(button, charId) {  // takes button and charId as argument and places button in HTML #CharContainer based on charId. layout is heavily dependent on charId being the order at which buttons should be in and there being the correct amount of characters
-					// if amount of characters changes, this is the function to alter to change the layout
+function PlaceButton(button, charId) {  					// takes button and charId as argument and places button in HTML #CharContainer based on charId. layout is heavily dependent on charId being the order at which buttons should be in and there being the correct amount of characters
+															// if amount of characters changes, this is the function to alter to change the layout
 	var div = document.getElementById("CharDiv" + charId);
-	div.appendChild(button);						// append button to div element
+	div.appendChild(button);								// append button to div element
 };
 
-function PlaceShareButton(button, charId) { // takes button and charId as argument and places button in HTML #ShareCharContainer based on charId. layout is heavily dependent on charId being the order at which buttons should be in and the being the correct amount of characters
-				    	    // if amount of characters changes, this is the function to alter to change the layout
+function PlaceShareButton(button, charId) { 							// takes button and charId as argument and places button in HTML #ShareCharContainer based on charId. layout is heavily dependent on charId being the order at which buttons should be in and the being the correct amount of characters
+																		// if amount of characters changes, this is the function to alter to change the layout
 	var shareContainer = $("#ShareCharContainer");
 
 	var div = document.createElement("DIV");
 	div.className = "col-md-1 col-xs-1 ShareCharDiv";
-	div.appendChild(button);						// append button to div element
+	div.appendChild(button);											// append button to div element
 
-	if (charId == 0 || charId == 8) {					// add offset class to 1st element of rows 1 and 2
+	if (charId == 0 || charId == 8) {									// add offset class to 1st element of rows 1 and 2
 		div.className = "col-md-1 col-xs-1 col-md-offset-2 col-xs-offset-2 ShareCharDiv";
 	}
 
 	if (charId < 8) shareContainer.children().eq(0).append(div);		// add div element to 1st row
-	else shareContainer.children().eq(1).append(div);			// add div element to 2nd row
+	else shareContainer.children().eq(1).append(div);					// add div element to 2nd row
 };
 
 function ClearButtonClick(button) {
@@ -301,7 +301,7 @@ function DeleteCharactersMatchups(char) { // Delete all of CharOnes matchups
 	ShowMatchups();
 }
 
-function ShowMatchups() {
+function ShowMatchups() {				// First removes all matchup labels, then updates them if SelectInfo.MatchupToggle is true.
 	for (var c of CharacterDict) {
 		c.value.matchupLabel.innerHTML = "";
 	}
