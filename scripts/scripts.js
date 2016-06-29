@@ -448,7 +448,7 @@ function UpdateShareScreen() { // Will replace the html generated on the Share o
 		count = 0;
 		xCoord = 450;
 		for (c of SelectInfo.ShareChar.value.matchupArr) {
-			if (c == "") {
+			if (c == null) {
 				count++;
 				continue;
 			}
