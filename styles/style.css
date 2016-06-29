@@ -244,3 +244,26 @@ body {
 	top: -100px;
 
 }
+
+#ShareCanvas {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 60px;
+}
+
+.ShareCharButton {
+	background-color: #313131;
+	height: 60px;
+	border: none;
+	outline: none;
+	margin-top: 6px;
+}
+
+.ShareCharButton:hover {
+	background-color: #234366;
+}
+
+.ShareCharButton:active {
+	background-color: #E00000;
+}
