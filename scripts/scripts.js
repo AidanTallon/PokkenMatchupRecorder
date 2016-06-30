@@ -311,15 +311,19 @@ document.getElementById("FileInput").addEventListener("change", LoadCharacterDic
 	}
 };*/
 
-function ExportCharacterDict() {
-	var textIn = "";
-	var arrIn = []
+function ClickSave() {
+	var filename = window.prompt("Save file as: ", "PokkenMatchupRecorder.txt");
+	ExportCharacterDict(filename);
+}
+
+function ExportCharacterDict(filename) {
+	if (!filename.endsWith(".txt")) filename = filename.concat(".txt");
+	var arrIn = [];
 	for (var i = 0; i < CharacterNamesArr.length; i++) {
 		arrIn[i] = CharacterDict[i].value.matchupArr;
 	}
-	textIn = JSON.stringify(arrIn, intReplacer);
+	var textIn = JSON.stringify(arrIn, intReplacer);
 	var blob = new Blob([textIn], {type: "text/csv"});
-	var filename = "PokkenMatchupRecorder.txt";
 	if (window.navigator.msSaveOrOpenBlob) {
 		window.navigator.msSaveBlob(blob, filename);
 	}
