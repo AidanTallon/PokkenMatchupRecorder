@@ -218,40 +218,8 @@ function ClearAllMatchups() { 	// Deletes all records of matchups. Resets most t
 		}
 	}
 };
-// commented out to test new Load method
-/*function LoadCharacterDict(evt) {
-	SelectInfo.CharOne = null;
-	SelectInfo.CharTwo = null;
-	ShowMatchups();
-	if (window.File && window.FileReader && window.FileList && window.Blob) {
-		var file = evt.target.files[0];
-
-		if (!file) {
-			alert("Failed to load file");
-		} else if (!file.type.match("text.*")) {
-			alert(file.name + " is not a valid text file.");
-		} else {
-			var r = new FileReader();
-			r.onload = function(e) {
-				var contents = e.target.result;
-				var m = contents.split(",");
-				for (var i = 0; i < CharacterNamesArr.length; i++) {
-					for (var j = 0; j < CharacterNamesArr.length; j++) {
-						CharacterDict[i].value.matchupArr[j] = m[(i*CharacterNamesArr.length)+j];
-					}
-				}
-			}
-			r.readAsText(file);
-		}
-	} else {
-		alert("The File APIs are not fully supported by your browser.");
-	};
-	SelectInfo.ShareChar = null;
-	UpdateShareScreen();
-};*/
 
 function LoadCharacterDict(evt) {
-	
 	SelectInfo.CharOne = null;
 	SelectInfo.CharTwo = null;
 	ShowMatchups();
@@ -313,26 +281,6 @@ function intReplacer(key, value) { // converts strings to ints when applicable i
 }
 
 document.getElementById("FileInput").addEventListener("change", LoadCharacterDict, false);
-// commented out to test new Export method
-/*function ExportCharacterDict() { // writes matchup data to text file in order of charId, then saves file on client computer.
-	var textIn = "";
-	for (var i = 0; i < CharacterNamesArr.length; i++) {
-		textIn = textIn.concat((CharacterDict[i].value.matchupArr.join() + ","));
-	};
-	var blob = new Blob([textIn], {type: "text/csv"});
-	var filename = "PokkenMatchupRecorder.txt";
-	if (window.navigator.msSaveOrOpenBlob) {
-		window.navigator.msSaveBlob(blob, filename);
-	}
-	else {
-		var elem = window.document.createElement("a");
-		elem.href = window.URL.createObjectURL(blob);
-		elem.download = filename;
-		document.body.appendChild(elem);
-		elem.click();
-		document.body.removeChild(elem);
-	}
-};*/
 
 function ClickSave() {
 	var filename = window.prompt("Save file as: ", "PokkenMatchupRecorder.txt");
