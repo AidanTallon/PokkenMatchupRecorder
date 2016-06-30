@@ -545,6 +545,12 @@ function ShareCharButtonClick(char) {
 	UpdateShareScreen();
 }
 
+function closeAllNavs() {
+	closeShareNav();
+	closeHelpNav();
+	closeSettingsNav();
+}
+
 
 function clickShareNav() {
 	if (document.getElementById("ShareOverlay").style.height == "0%") openShareNav();
@@ -552,7 +558,7 @@ function clickShareNav() {
 }
 
 function openShareNav() {
-	closeHelpNav();
+	closeAllNavs();
 	document.getElementById("ShareOverlay").style.height = "100%";
 }
 
@@ -568,12 +574,26 @@ function clickHelpNav() {
 }
 
 function openHelpNav() {
-	closeShareNav();
+	closeAllNavs();
 	document.getElementById("HelpOverlay").style.height = "100%";
 }
 
 function closeHelpNav() {
 	document.getElementById("HelpOverlay").style.height = "0%";
+}
+
+function clickSettingsNav() {
+	if (document.getElementById("SettingsOverlay").style.height == "0%") openSettingsNav();
+	else if (document.getElementById("SettingsOverlay").style.height == "100%") closeSettingsNav();
+}
+
+function openSettingsNav() {
+	closeAllNavs();
+	document.getElementById("SettingsOverlay").style.height = "100%";
+}
+
+function closeSettingsNav() {
+	document.getElementById("SettingsOverlay").style.height = "0%";
 }
 
 $(document).ready(function() {
@@ -582,4 +602,6 @@ $(document).ready(function() {
 	GenerateCharacterButtons();
 	document.getElementById("ShareOverlay").style.height = "0%";
 	document.getElementById("HelpOverlay").style.height = "0%";
+	document.getElementById("SettingsOverlay").style.height = "0%";
+	SelectInfo.TrackBar.value = 0;
 });

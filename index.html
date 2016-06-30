@@ -20,6 +20,7 @@
 		<li><button id="ClearAllButton" onclick="ClearAllMatchups()">Clear All</button></li>
 		<li><input id="FileInput" type="file" style="visibility:hidden" /><button onclick="$('#FileInput').click();">Load</button></li>
 		<li><button onclick="ExportCharacterDict()">Save</button></li>
+		<li><button onclick="clickSettingsNav()">Settings</button></li>
 		<li><button onclick="clickHelpNav()">Help</button></li>
 		<li><button onclick="clickShareNav()">Share</button></li>
 	</ul>
@@ -49,6 +50,10 @@
 		</div>
 		<canvas id="ShareCanvas"></canvas>
 	</div>
+</div>
+
+<div id="SettingsOverlay" class="overlay">
+	<a href="javascript:void(0)" class="closeBtn" onclick="closeSettingsNav()">&times;</a>
 </div>
 
 <div id="PrimaryContainer" class="container-fluid">
