@@ -251,6 +251,7 @@ function ClearAllMatchups() { 	// Deletes all records of matchups. Resets most t
 };*/
 
 function LoadCharacterDict(evt) {
+	
 	SelectInfo.CharOne = null;
 	SelectInfo.CharTwo = null;
 	ShowMatchups();
@@ -265,6 +266,10 @@ function LoadCharacterDict(evt) {
 			var r = new FileReader();
 			r.onload = function(e) {
 				var contents = e.target.result.split();
+				if (!CheckJSONContents(contents)) {
+					alert("File read error. Data not formatted as expected.");
+					return;
+				}
 				arrIn = JSON.parse(contents);
 				for (var i = 0; i < CharacterNamesArr.length; i++) {
 					CharacterDict[i].value.matchupArr = arrIn[i];
@@ -277,6 +282,24 @@ function LoadCharacterDict(evt) {
 	};
 	SelectInfo.ShareChar = null;
 	UpdateShareScreen();
+}
+
+function CheckJSONContents(contents) {	// verifies data is as it should be. returns false if not. stops LoadCharacterDict.
+	try {
+		arrays = JSON.parse(contents);
+	}
+	catch(err) {
+		console.log(err.message);
+		return false;
+	}
+	if (arrays.length != CharacterNamesArr.length) return false;
+	for (var i = 0; i < arrays.length; i++) {
+		if (arrays[i].length != CharacterNamesArr.length) return false;
+		for (var j = 0; j < arrays[i].length; j++) {
+			if (arrays[i][j] < -3 ||arrays[i][j] > 3) return false;
+		}
+	}
+	return true;	// return true as no errors found.
 }
 
 function intReplacer(key, value) { // converts strings to ints when applicable in JSON.stringify in ExportCharacterDict()
