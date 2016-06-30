@@ -218,8 +218,8 @@ function ClearAllMatchups() { 	// Deletes all records of matchups. Resets most t
 		}
 	}
 };
-
-function LoadCharacterDict(evt) {
+// commented out to test new Load method
+/*function LoadCharacterDict(evt) {
 	SelectInfo.CharOne = null;
 	SelectInfo.CharTwo = null;
 	ShowMatchups();
@@ -237,7 +237,7 @@ function LoadCharacterDict(evt) {
 				var m = contents.split(",");
 				for (var i = 0; i < CharacterNamesArr.length; i++) {
 					for (var j = 0; j < CharacterNamesArr.length; j++) {
-						CharacterDict[i].value.matchupArr[j] = m[(i*16)+j];
+						CharacterDict[i].value.matchupArr[j] = m[(i*CharacterNamesArr.length)+j];
 					}
 				}
 			}
@@ -248,11 +248,50 @@ function LoadCharacterDict(evt) {
 	};
 	SelectInfo.ShareChar = null;
 	UpdateShareScreen();
-};
+};*/
+
+function LoadCharacterDict(evt) {
+	SelectInfo.CharOne = null;
+	SelectInfo.CharTwo = null;
+	ShowMatchups();
+	if (window.File && window.FileReader && window.FileList && window.Blob) {
+		var file = evt.target.files[0];
+		
+		if (!file) {
+			alert("Failed to load file");
+		} else if (!file.type.match("text.*")) {
+			alert(file.name + " is not a valid text file.");
+		} else {
+			var r = new FileReader();
+			r.onload = function(e) {
+				var contents = e.target.result.split();
+				arrIn = JSON.parse(contents);
+				for (var i = 0; i < CharacterNamesArr.length; i++) {
+					CharacterDict[i].value.matchupArr = arrIn[i];
+				}
+			}
+			r.readAsText(file);
+		}
+	} else {
+		alert("The File APIs are not fully supported by your browser.");
+	};
+	SelectInfo.ShareChar = null;
+	UpdateShareScreen();
+}
+
+function intReplacer(key, value) { // converts strings to ints when applicable in JSON.stringify in ExportCharacterDict()
+	if (value == null) {
+		return value;
+	} else if (!isNaN(value)) {
+		return +value;
+	} else {
+		return value;
+	}
+}
 
 document.getElementById("FileInput").addEventListener("change", LoadCharacterDict, false);
-
-function ExportCharacterDict() { // writes matchup data to text file in order of charId, then saves file on client computer.
+// commented out to test new Export method
+/*function ExportCharacterDict() { // writes matchup data to text file in order of charId, then saves file on client computer.
 	var textIn = "";
 	for (var i = 0; i < CharacterNamesArr.length; i++) {
 		textIn = textIn.concat((CharacterDict[i].value.matchupArr.join() + ","));
@@ -270,7 +309,30 @@ function ExportCharacterDict() { // writes matchup data to text file in order of
 		elem.click();
 		document.body.removeChild(elem);
 	}
+};*/
+
+function ExportCharacterDict() {
+	var textIn = "";
+	var arrIn = []
+	for (var i = 0; i < CharacterNamesArr.length; i++) {
+		arrIn[i] = CharacterDict[i].value.matchupArr;
+	}
+	textIn = JSON.stringify(arrIn, intReplacer);
+	var blob = new Blob([textIn], {type: "text/csv"});
+	var filename = "PokkenMatchupRecorder.txt";
+	if (window.navigator.msSaveOrOpenBlob) {
+		window.navigator.msSaveBlob(blob, filename);
+	}
+	else {
+		var elem = window.document.createElement("a");
+		elem.href = window.URL.createObjectURL(blob);
+		elem.download = filename;
+		document.body.appendChild(elem);
+		elem.click();
+		document.body.removeChild(elem);
+	}
 };
+	
 
 function RecordMatchup() {
 	SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key] = SelectInfo.TrackBar.value;
