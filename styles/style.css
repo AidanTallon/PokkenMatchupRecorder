@@ -65,6 +65,10 @@ body {
 	color: #818181;
 }
 
+#HelpOverlay p {
+	font-size: 16px;
+}
+
 .closeBtn {
 	position: absolute;
 	top: 20px;
@@ -167,6 +171,7 @@ body {
 #MatchupToggleButton {
 	position: absolute;
 	right: 15%;
+	outline: none !important;
 }
 
 #SelectContainer {
@@ -193,6 +198,7 @@ body {
 	color: white;
 	font-size: 40px;
 	width: 40px;
+	outline: none !important;
 }
 
 .RemoveBtn:hover {
@@ -230,6 +236,7 @@ body {
 	width: 100%;
 	left: 0px;
 	height: 40px;
+	outline: none !important;
 }
 
 .DeleteMatchupButton {
@@ -237,6 +244,7 @@ body {
 	left: 0px;
 	bottom: -40px;
 	width: 100%;
+	outline: none !important;
 }
 
 .ShareCharTile {
