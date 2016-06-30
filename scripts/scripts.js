@@ -419,22 +419,22 @@ function UpdateShareScreen() { // Will replace the html generated on the Share o
 
 	if (SelectInfo.ShareChar == null) return;
 
-	ctx.canvas.width = 800;
-	ctx.canvas.height = 500;
+	ctx.canvas.width = 1000;
+	ctx.canvas.height = 600;
 	ctx.fillStyle = "#222";
-	ctx.fillRect(0, 0, 800, 500);
+	ctx.fillRect(0, 0, 1000, 600);
 
 	var mainImg = document.createElement("IMG");
 	mainImg.src = SelectInfo.ShareChar.value.portraitString;
 	mainImg.style.width = "300px";
 	mainImg.onload = function() {
-		ctx.drawImage(mainImg, 50, 50, 300, 300);
+		ctx.drawImage(mainImg, 50, 50, 350, 350);
 	}
 
 	ctx.font = "30px Arial";
 	ctx.fillStyle = "white";
 	ctx.textAlign = "center";
-	ctx.fillText(SelectInfo.ShareChar.value.charName, 200, 400);
+	ctx.fillText(SelectInfo.ShareChar.value.charName, 225, 450);
 
 	var refPoint = 0; // this is the y position of the last image placed in a row. used to calculate where the next row should start.
 	for (var i = 3; i > -4; i--) {
@@ -453,7 +453,7 @@ function UpdateShareScreen() { // Will replace the html generated on the Share o
 				continue;
 			}
 			else if (c == i) {
-				if (xCoord != 800) {
+				if (xCoord != 950) {
 					var sprImage = document.createElement("IMG");
 					sprImage.src = CharacterDict[count].value.spriteString;
 					sprImage.style.width = "50px";
@@ -473,7 +473,7 @@ function UpdateShareScreen() { // Will replace the html generated on the Share o
 			count++;
 		}
 		ctx.moveTo(400, refPoint + 50);
-		ctx.lineTo(800, refPoint + 50);
+		ctx.lineTo(950, refPoint + 50);
 		ctx.stroke();
 	}
 }
