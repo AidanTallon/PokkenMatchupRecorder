@@ -173,30 +173,52 @@ function PlaceShareButton(button, charId) { 							// takes button and charId as
 function ClearButtonClick(button) {
 	if (SelectInfo.ClearToggle) {
 		DisableClearMode(button);
-		SelectInfo.ClearToggle = false;
-		button.style.background = "#333";
 	}
 	else if (!SelectInfo.ClearToggle) {
 		EnableClearMode(button);
-		SelectInfo.ClearToggle = true;
-		button.style.background = "#C20000";
 	}
 };
 
 function EnableClearMode(button) {
 	SelectInfo.ClearToggle = true;
+	SelectInfo.CharOne = null;
+	SelectInfo.CharTwo = null;
+	SelectInfo.MatchupToggle = true;
 	button.style.background = "#C20000";
+	document.getElementById("SelectContainer").style.display = "none";
+	SelectInfo.CharOne = null;
+	SelectInfo.CharTwo = null;
+	ShowMatchups();
 	for (char of CharacterDict) {
 		char.value.button.className = "CharButtonClearMode";
+		c = char;
+		char.value.button.onmouseover = function(c) {
+			return function() {
+				SelectInfo.CharOne = c;
+				ShowMatchups();
+			};
+		}(c);
+		char.value.button.onmouseout = function() {
+			SelectInfo.CharOne = null;
+			ShowMatchups();
+			return;
+		};
 	}
 	DocInfo.ClearAllButton.style.display = "block";
 }
 
+
 function DisableClearMode(button) {
 	SelectInfo.ClearToggle = false;
-	button.style.backgronud = "#333";
+	SelectInfo.CharOne = null;
+	SelectInfo.CharTwo = null;
+	UpdateCharacterSelectImage();
+	button.style.background = "#333";
+	document.getElementById("SelectContainer").style.display = "block";
 	for (char of CharacterDict) {
 		char.value.button.className = "CharButton";
+		char.value.button.onmouseover = null;
+		char.value.button.onmouseout = null;
 	}
 	DocInfo.ClearAllButton.style.display = "none";
 }
