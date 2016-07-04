@@ -114,10 +114,28 @@ body {
 	background-color: #111;
 }
 
+#ClearModeContainer {
+	width: 1000px;
+	margin-top: 60px;
+}
+
+.ClearModeDiv {
+	background-color: #313131;
+	height: 180px;
+	margin: 20px;
+	text-align: center;
+	color: white;
+	padding-top: 10px;
+}
+
 #ClearAllButton {
+	display: block;
 	position: absolute;
-	top: 50px;
-	right: 0px;
+	bottom: 0px;
+	width: 100%;
+	left: 0px;
+	height: 40px;
+	outline: none !important;
 }
 
 #CharContainer {

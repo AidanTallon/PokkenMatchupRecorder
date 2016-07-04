@@ -86,7 +86,6 @@ function InitializeDocInfo() {	//
 	});
 
 	DocInfo.ClearAllButton = document.getElementById("ClearAllButton");
-	DocInfo.ClearAllButton.style.display = "none";
 }
 
 function GenerateCharacterButtons() { 											// buttons are of class CharButton. They are referenced in CharacterDict[i].value.button. ShareButtons are of class ShareCharButton and are in CharacterDict[i].value.shareButton
@@ -186,6 +185,7 @@ function EnableClearMode(button) {
 	SelectInfo.MatchupToggle = true;
 	button.style.background = "#C20000";
 	document.getElementById("SelectContainer").style.display = "none";
+	document.getElementById("ClearModeContainer").style.display = "block";
 	SelectInfo.CharOne = null;
 	SelectInfo.CharTwo = null;
 	ShowMatchups();
@@ -204,7 +204,6 @@ function EnableClearMode(button) {
 			return;
 		};
 	}
-	DocInfo.ClearAllButton.style.display = "block";
 }
 
 
@@ -215,12 +214,12 @@ function DisableClearMode(button) {
 	UpdateCharacterSelectImage();
 	button.style.background = "#333";
 	document.getElementById("SelectContainer").style.display = "block";
+	document.getElementById("ClearModeContainer").style.display = "none";
 	for (char of CharacterDict) {
 		char.value.button.className = "CharButton";
 		char.value.button.onmouseover = null;
 		char.value.button.onmouseout = null;
 	}
-	DocInfo.ClearAllButton.style.display = "none";
 }
 
 function ClearAllMatchups() { 	// Deletes all records of matchups. Resets most things on page.

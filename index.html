@@ -17,7 +17,6 @@
 	<ul>
 		<li><h7>Pokken Matchup Recorder</h7></li>
 		<li><button onclick="ClearButtonClick(this)">Clear</button></li>
-		<li><button id="ClearAllButton" onclick="ClearAllMatchups()">Clear All</button></li>
 		<li><input id="FileInput" type="file" style="visibility:hidden" /><button onclick="$('#FileInput').click();">Load</button></li>
 		<li><button onclick="ClickSave()">Save</button></li>
 		<li><button onclick="clickSettingsNav()">Settings</button></li>
@@ -108,6 +107,17 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<div id="ClearModeContainer" class="container" style="display: none"> <!-- Should be hidden on page load, only displayed when clear mode toggled. -->
+		<div class="row">
+			<div class="col-md-4 col-xs-4">
+			</div>
+			<div class="col-md-2 col-xs-4 ClearModeDiv">
+				<p>In clear mode.</p>
+				<p>Click Pok&eacute;mon to clear records.</p>
+				<p>Click clear again to leave clear mode.</p>
+				<button id="ClearAllButton" onclick="ClearAllMatchups()" class="ClearAllButton btn btn-danger">Clear All</button>				
+			</div>
 	</div>
 
 </div>
