@@ -144,6 +144,14 @@ body {
 	background-color: #E00000;
 }
 
+.CharButtonSelected {
+	background-color: #006D91;
+}
+
+.CharButtonSelected:hover {
+	background-color: #56A6CC;
+}
+
 .CharButtonClearMode {
 	background-color: #313131;
 	height: 90px;
@@ -215,8 +223,9 @@ body {
 
 .MiddleSelectDiv {
 	background-color: #313131;
-	height: 160px;
+	height: 180px;
 	margin: 20px;
+	text-align: center;
 }
 
 #TrackBarLabel {

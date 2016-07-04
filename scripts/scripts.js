@@ -220,6 +220,9 @@ function ClearAllMatchups() { 	// Deletes all records of matchups. Resets most t
 };
 
 function LoadCharacterDict(evt) {
+	if (SelectInfo.CharOne != null) {
+		CharButtonClick(SelectInfo.CharOne);
+	}
 	SelectInfo.CharOne = null;
 	SelectInfo.CharTwo = null;
 	ShowMatchups();
@@ -374,6 +377,7 @@ function CharButtonClick(char) { // assigns characters to SelectInfo.CharOne and
 	if (SelectInfo.ClearToggle) DeleteCharactersMatchups(char);
 	else {
 		if (SelectInfo.CharOne == char) {
+			char.value.button.className = "CharButton";
 			SelectInfo.CharOne = null;
 			SelectInfo.CharTwo = null;
 			SelectInfo.TrackBar.disabled = true;
@@ -381,6 +385,7 @@ function CharButtonClick(char) { // assigns characters to SelectInfo.CharOne and
 		}
 		else if (SelectInfo.CharOne == null) {
 			SelectInfo.CharOne = char;
+			char.value.button.className = "CharButton CharButtonSelected";
 			SelectInfo.CharTwo = null;
 			SelectInfo.TrackBar.disabled = true;
 			TrackBarChange(0);	
@@ -415,7 +420,7 @@ function TrackBarChange(value) { // Updates TrackBarLabel and HelperText
 			SelectInfo.HelperText.innerHTML = SelectInfo.CharOne.value.charName + " loses to " + SelectInfo.CharTwo.value.charName + " with a " + value + " disadvantage.";
 		}
 		else if (value > 0) {
-			SelectInfo.HelperText.innerHTML = SelectInfo.CharOne.value.charName + " wins against " + SelectInfo.CharTwo.value.charName + " with a " + value + " advantage.";
+			SelectInfo.HelperText.innerHTML = SelectInfo.CharOne.value.charName + " wins against " + SelectInfo.CharTwo.value.charName + " with a +" + value + " advantage.";
 		};
 	}
 	else if (SelectInfo.TrackBar.disabled) {
