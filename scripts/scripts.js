@@ -229,8 +229,7 @@ function ClearAllMatchups() { 	// Deletes all records of matchups. Resets most t
 		SelectInfo.CharOne = null;
 		SelectInfo.CharTwo = null;
 		ShowMatchups();
-		SelectInfo.TrackBar.disabled = true;
-		TrackBarChange(0);
+		TrackBarDisable();
 		UpdateCharacterSelectImage();
 		for (var c of CharacterDict) {
 			for (var i = 0; i < CharacterDict.length; i++) {
@@ -401,24 +400,21 @@ function CharButtonClick(char) { // assigns characters to SelectInfo.CharOne and
 			char.value.button.className = "CharButton";
 			SelectInfo.CharOne = null;
 			SelectInfo.CharTwo = null;
-			SelectInfo.TrackBar.disabled = true;
-			TrackBarChange(0);	
+			TrackBarDisable();
 		}
 		else if (SelectInfo.CharOne == null) {
 			SelectInfo.CharOne = char;
 			char.value.button.className = "CharButton CharButtonSelected";
 			SelectInfo.CharTwo = null;
-			SelectInfo.TrackBar.disabled = true;
-			TrackBarChange(0);	
+			TrackBarDisable();	
 		}
 		else if (SelectInfo.CharTwo == char) {
 			SelectInfo.CharTwo = null;
-			SelectInfo.TrackBar.disabled = true;
-			TrackBarChange(0);	
+			TrackBarDisable();
 		}
 		else if (SelectInfo.CharOne != null && SelectInfo.CharTwo != char) {
 			SelectInfo.CharTwo = char;
-			SelectInfo.TrackBar.disabled = false;	
+			TrackBarEnable();
 			if (SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key] != null) {
 				SelectInfo.TrackBar.value = SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key];
 				TrackBarChange(SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key]); // Default value of trackbar is the stored matchup if it exists
@@ -450,6 +446,18 @@ function TrackBarChange(value) { // Updates TrackBarLabel and HelperText
 		SelectInfo.HelperText.innerHTML = "";
 	};		 
 };
+
+function TrackBarDisable() {
+	SelectInfo.TrackBar.value = 0;
+	SelectInfo.TrackBar.disabled = true;
+	TrackBarChange(0);
+	SelectInfo.TrackBar.title = "Select characters first"
+}
+
+function TrackBarEnable() {
+	SelectInfo.TrackBar.disabled = false;
+	SelectInfo.TrackBar.removeAttribute('title');
+}
 
 function UpdateCharacterSelectImage() {
 	if (SelectInfo.CharOne != null) {
