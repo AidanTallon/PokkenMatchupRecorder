@@ -232,7 +232,8 @@ function ClearAllMatchups() { 	// Deletes all records of matchups. Resets most t
 		TrackBarDisable();
 		UpdateCharacterSelectImage();
 		for (var c of CharacterDict) {
-			for (var i = 0; i < CharacterDict.length; i++) {
+			i = CharacterDict.length;
+			while (i--) {
 				c.value.matchupArr[i] = null;
 			}
 		}
@@ -262,7 +263,8 @@ function LoadCharacterDict(evt) {
 					return;
 				}
 				arrIn = JSON.parse(contents);
-				for (var i = 0; i < CharacterNamesArr.length; i++) {
+				i = CharacterNamesArr.length;
+				while (i--) {
 					CharacterDict[i].value.matchupArr = arrIn[i];
 				}
 			}
@@ -284,9 +286,11 @@ function CheckJSONContents(contents) {	// verifies data is as it should be. retu
 		return false;
 	}
 	if (arrays.length != CharacterNamesArr.length) return false;
-	for (var i = 0; i < arrays.length; i++) {
+	i = arrays.length;
+	while (i--) {
 		if (arrays[i].length != CharacterNamesArr.length) return false;
-		for (var j = 0; j < arrays[i].length; j++) {
+		j = arrays[i].length;
+		while (j--) {
 			if (arrays[i][j] < -3 ||arrays[i][j] > 3) return false;
 		}
 	}
@@ -313,7 +317,8 @@ function ClickSave() {
 function ExportCharacterDict(filename) {
 	if (!filename.endsWith(".txt")) filename = filename.concat(".txt");
 	var arrIn = [];
-	for (var i = 0; i < CharacterNamesArr.length; i++) {
+	i = CharacterNamesArr.length;
+	while (i--) {
 		arrIn[i] = CharacterDict[i].value.matchupArr;
 	}
 	var textIn = JSON.stringify(arrIn, intReplacer);
@@ -353,7 +358,8 @@ function DeleteSpecificMatchup() { // Delete specific matchup between CharOne an
 function DeleteCharactersMatchups(char) { // Delete all of CharOnes matchups
 	var prompt = window.confirm("Delete all records for this character?");
 	if (prompt == true) {
-		for (var i = 0; i < CharacterDict.length; i++) {
+		i = CharacterDict.length;
+		while (i--) {
 			char.value.matchupArr[i] = null;
 			CharacterDict[i].value.matchupArr[char.key] = null;
 			};
@@ -367,7 +373,8 @@ function ShowMatchups() {				// First removes all matchup labels, then updates t
 	}
 
 	if (SelectInfo.MatchupToggle && SelectInfo.CharOne != null) {
-		for (var i = 0; i < CharacterDict.length; i++) {
+		i = CharacterDict.length;
+		while (i--) {
 
 			if (SelectInfo.CharOne.value.matchupArr[i] != null) {
 
