@@ -358,6 +358,9 @@ input[type=range]::-moz-range-thumb {
   background: #ffffff;
   cursor: pointer;
 }
+input[type=range]::-moz-focus-outer {
+  border: 0;
+}
 input[type=range]::-ms-track {
   width: 100%;
   height: 6px;
