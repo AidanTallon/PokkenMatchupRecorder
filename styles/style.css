@@ -61,12 +61,8 @@ body {
 
 .overlay p {
 	padding: 8px;
-	font-size: 36px;
-	color: #818181;
-}
-
-#HelpOverlay p {
 	font-size: 16px;
+	color: #818181;
 }
 
 .closeBtn {

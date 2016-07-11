@@ -15,7 +15,7 @@
 
 <div id="Toolbar">
 	<ul>
-		<li><h7>Pokken Matchup Recorder</h7></li>
+		<li><button onclick="clickAboutNav()" style="float: left; width: 200px; padding: 14px 0px;">Pokken Matchup Recorder</button></li>
 		<li><button onclick="ClearButtonClick(this)">Clear</button></li>
 		<li><input id="FileInput" type="file" style="visibility:hidden" /><button onclick="$('#FileInput').click();">Load</button></li>
 		<li><button onclick="ClickSave()">Save</button></li>
@@ -25,6 +25,14 @@
 	</ul>
 </div>
 
+<div id="AboutOverlay" class="overlay">
+	<a href="javascript:void(0)" class="closeBtn" onclick="closeAboutNav()">&times;</a>
+
+	<div class="overlay-content">
+		<p>Pokken Matchup Recorder is a tool that allows you to save and share your opinions on matchups in Pokk&eacute;n Tournament</p>
+		<p>Created by Aidan Tallon</p>
+	</div>
+</div>
 
 <div id="HelpOverlay" class="overlay">
 	<a href="javascript:void(0)" class="closeBtn" onclick="closeHelpNav()">&times;</a>
