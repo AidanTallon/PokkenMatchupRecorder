@@ -15,7 +15,7 @@
 
 <div id="Toolbar">
 	<ul>
-		<li><h7>Pokken Matchup Recorder</h7></li>
+		<li><button onclick="clickAboutNav()" style="float: left; width: 200px; padding: 14px 0px;">Pokken Matchup Recorder</button></li>
 		<li><button onclick="ClearButtonClick(this)">Clear</button></li>
 		<li><input id="FileInput" type="file" style="visibility:hidden" /><button onclick="$('#FileInput').click();">Load</button></li>
 		<li><button onclick="ClickSave()">Save</button></li>
@@ -25,14 +25,24 @@
 	</ul>
 </div>
 
+<div id="AboutOverlay" class="overlay">
+	<a href="javascript:void(0)" class="closeBtn" onclick="closeAboutNav()">&times;</a>
+
+	<div class="overlay-content">
+		<p>Pokken Matchup Recorder is a tool that allows you to save and share your opinions on matchups in Pokk&eacute;n Tournament</p>
+		<p>Created by Aidan Tallon</p>
+	</div>
+</div>
 
 <div id="HelpOverlay" class="overlay">
 	<a href="javascript:void(0)" class="closeBtn" onclick="closeHelpNav()">&times;</a>
 
 	<div class="overlay-content">
 		<p>Click a Pok&eacute;mon to get started!</p>
+		<p>Record matchups by selecting two Pok&eacute;mon and a matchup value and hitting Submit.</p>
+		<p>You can delete matchups by pressing the Delete Matchup button with two Pok&eacute;mon selected.</p>
+		<p>Or you can delete many matchups at once by pressing Clear in the top right corner.</p>
 		<p>Matchup charts can be saved to and loaded from your computer.</p>
-		<p>Select a matchup and press Delete Matchup to delete that specific matchup, or press the Clear button in the top right to remove all matchups from one character or all of them.</p>
 		<p>Click Share and then choose a Pok&eacute;mon to generate a matchup chart image.</p>
 		<p>Save this image to your computer so you can share it with others.</p>
 	</div>

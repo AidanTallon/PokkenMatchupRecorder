@@ -670,6 +670,7 @@ function closeAllNavs() {
 	closeShareNav();
 	closeHelpNav();
 	closeSettingsNav();
+	closeAboutNav();
 }
 
 
@@ -717,6 +718,20 @@ function closeSettingsNav() {
 	document.getElementById("SettingsOverlay").style.height = "0%";
 }
 
+function clickAboutNav() {
+	if (document.getElementById("AboutOverlay").style.height == "0%") openAboutNav();
+	else if (document.getElementById("AboutOverlay").style.height == "100%") closeAboutNav();
+}
+
+function openAboutNav() {
+	closeAllNavs();
+	document.getElementById("AboutOverlay").style.height = "100%";
+}
+
+function closeAboutNav() {
+	document.getElementById("AboutOverlay").style.height = "0%";
+}
+
 $(document).ready(function() {
 	InitializeCharacterDict();
 	InitializeDocInfo();
@@ -724,5 +739,6 @@ $(document).ready(function() {
 	document.getElementById("ShareOverlay").style.height = "0%";
 	document.getElementById("HelpOverlay").style.height = "0%";
 	document.getElementById("SettingsOverlay").style.height = "0%";
+	document.getElementById("AboutOverlay").style.height = "0%";
 	SelectInfo.TrackBar.value = 0;
 });
