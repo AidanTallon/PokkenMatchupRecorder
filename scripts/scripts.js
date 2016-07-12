@@ -489,7 +489,111 @@ function UpdateCharacterSelectImage() {
 	};
 };
 
-function UpdateShareScreen() { // Will replace the html generated on the Share overlay.
+function UpdateShareScreen() {
+	var canvas = document.getElementById("ShareCanvas");
+	var ctx = canvas.getContext("2d");
+	canvas.width = canvas.width; // Clears the canvas.
+	
+	if (SelectInfo.ShareChar == null) return; // No image shown if no ShareChar.
+	
+	ctx.canvas.width = 1000;
+	ctx.canvas.height = 600;
+	ctx.fillStyle == "#222"; // UGLY. Try linear gradients.
+	ctx.fillRect(0, 0, 1000, 600);
+	
+	var shareCharImg = document.createElement("IMG");
+	shareCharImg.src = SelectInfo.ShareChar.value.portraitString;
+	shareCharImg.style.width = "300px";
+	shareCharImg.onload = function () {
+		ctx.drawImage(shareCharImg, 50, 20, 400, 400);
+	}
+	
+	ctx.font = "30px Arial";
+	ctx.fillStyle = "white";
+	ctx.textAlign = "center";
+	ctx.fillText(SelectInfo.ShareChar.value.charName, 240, 470);
+	
+	var rowCount = [0, 0, 0, 0, 0]; // rowCount[i] i matches directly to row number, apart from rowCount[4] is for null values
+	rowCount[-1] = 0;
+	rowCount[-2] = 0;
+	rowCount[-3] = 0;
+	var i = CharacterDict.length;
+	while (i--) {							// get number of characters in row.
+		if (i == SelectInfo.ShareChar.value.charId) {
+			continue;
+		}
+		else if (SelectInfo.ShareChar.value.matchupArr[i] == null) {
+			rowCount[4]++;
+		}
+		else {
+			rowCount[SelectInfo.ShareChar.value.matchupArr[i]]++;
+		}
+	}
+	var maxRowLength = 8;
+	var basexPosition = 450;
+	var baseyPosition = 180;
+	ctx.font = "20px Arial";
+	ctx.textAlign = "center";
+	var shift = 0;
+	for (var i = 3; i >= -3; i--) {
+		ctx.fillText(i, basexPosition, baseyPosition - (100) + (shift * 50));
+		if (rowCount[i] > maxRowLength) {
+			shift++;
+		}
+		ctx.moveTo(basexPosition - 8, baseyPosition - (88) + (shift * 50));
+		ctx.lineTo(950, baseyPosition - (88) + (shift * 50));
+		ctx.strokeStyle = "#FFFFFF"
+		ctx.stroke();
+		console.log(".");
+		shift++;
+	}
+	
+	i = CharacterDict.length;
+	while (i--) { // work rows backwards
+		if (i == SelectInfo.ShareChar.value.charId) {
+			continue;
+		}
+		else {
+			if (SelectInfo.ShareChar.value.matchupArr[i] == null) {
+				var sprImage = document.createElement("IMG");
+				sprImage.src = CharacterDict[i].value.spriteString;
+				sprImage.style.width = "50px";
+				var xPosition = basexPosition + (rowCount[4] * 50);
+				var yPosition = 480;
+				if (rowCount[4] > maxRowLength) {
+					xPosition -= (8 * 50);
+					yPosition += 50;
+				}
+				ctx.drawImage(sprImage, xPosition, yPosition, 50, 50);
+				rowCount[4]--;
+			}
+			else {
+				var row = SelectInfo.ShareChar.value.matchupArr[i];
+				var sprImage = document.createElement("IMG");
+				sprImage.src = CharacterDict[i].value.spriteString;
+				sprImage.style.width = "50px";
+				var shift_ = 0; // how many overflow rows occur before this one.
+				j = row;
+				while (j < 3) {
+					j++;
+					if (rowCount[j] > maxRowLength) {
+						shift_++;
+					}
+				}
+				var xPosition = basexPosition + (rowCount[row] * 50);
+				var yPosition = baseyPosition + 15 - (50 * row) + (shift_ * 50);
+				if (rowCount[row] > maxRowLength) {
+					xPosition -= (8 * 50);
+					yPosition += 50;
+				}
+				ctx.drawImage(sprImage, xPosition, yPosition, 50, 50);
+				rowCount[row]--;
+			}
+		}
+	}
+}
+/* Commented out to test new method
+function OldUpdateShareScreen() { // Will replace the html generated on the Share overlay.
 
 	var canvas = document.getElementById("ShareCanvas");
 	var ctx = canvas.getContext("2d");
@@ -514,6 +618,7 @@ function UpdateShareScreen() { // Will replace the html generated on the Share o
 	ctx.textAlign = "center";
 	ctx.fillText(SelectInfo.ShareChar.value.charName, 225, 450);
 
+	var nullCharArr = [];
 	var refPoint = 0; // this is the y position of the last image placed in a row. used to calculate where the next row should start.
 	for (var i = 3; i > -4; i--) {
 		refPoint += 50;
@@ -554,7 +659,7 @@ function UpdateShareScreen() { // Will replace the html generated on the Share o
 		ctx.lineTo(950, refPoint + 50);
 		ctx.stroke();
 	}
-}
+}*/
 
 function ShareCharButtonClick(char) {
 	SelectInfo.ShareChar = char;
