@@ -263,9 +263,13 @@ function LoadCharacterDict(evt) {
 					return;
 				}
 				arrIn = JSON.parse(contents);
-				i = CharacterNamesArr.length;
-				while (i--) {
-					CharacterDict[i].value.matchupArr = arrIn[i];
+				for (a of arrIn) {
+					for (c of CharacterDict) {
+						if (a[0] == c.value.charName) {
+							c.value.matchupArr = a[1];
+							continue;
+						}
+					}
 				}
 			}
 			r.readAsText(file);
@@ -277,24 +281,37 @@ function LoadCharacterDict(evt) {
 	UpdateShareScreen();
 }
 
-function CheckJSONContents(contents) {	// verifies data is as it should be. returns false if not. stops LoadCharacterDict.
+function CheckJSONContents(contents) {	// verifies data is as it should be. returns false if not. stops LoadCharacterDict. Does not check character names
+	var success = true;	// changes to false on error.
 	try {
 		arrays = JSON.parse(contents);
 	}
 	catch(err) {
 		console.log(err.message);
-		return false;
+		success = false;
 	}
-	if (arrays.length != CharacterNamesArr.length) return false;
-	i = arrays.length;
-	while (i--) {
-		if (arrays[i].length != CharacterNamesArr.length) return false;
-		j = arrays[i].length;
-		while (j--) {
-			if (arrays[i][j] < -3 ||arrays[i][j] > 3) return false;
+	if (arrays.length != CharacterNamesArr.length) {
+		console.log("File should contain " + CharacterNamesArr.length + " arrays. " + arrays.length + " found.");
+		success = false;
+	}
+	for (a of arrays) {
+		if (a[1].length != CharacterNamesArr.length) {
+			console.log("Array wrong length for array " + a[0]);
+			console.log("Array should be length " + CharacterNamesArr.length + ". Current length is " + a[1].length + ".");
+			success = false;
+		}
+		if (!a[0] in CharacterNamesArr) {
+			console.log("No match found for character of name " + a[0] + ".");
+			success = false;
+		}
+		for (m of a[1]) {
+			if (m < -3 || m > 3) {
+				console.log(a[0] + " array contains invalid values.");
+				success = false;
+			}
 		}
 	}
-	return true;	// return true as no errors found.
+	return success;
 }
 
 function intReplacer(key, value) { // converts strings to ints when applicable in JSON.stringify in ExportCharacterDict()
@@ -317,9 +334,8 @@ function ClickSave() {
 function ExportCharacterDict(filename) {
 	if (!filename.endsWith(".txt")) filename = filename.concat(".txt");
 	var arrIn = [];
-	i = CharacterNamesArr.length;
-	while (i--) {
-		arrIn[i] = CharacterDict[i].value.matchupArr;
+	for (c of CharacterDict) {
+		arrIn.push([c.value.charName, c.value.matchupArr]);
 	}
 	var textIn = JSON.stringify(arrIn, intReplacer);
 	var blob = new Blob([textIn], {type: "text/csv"});
