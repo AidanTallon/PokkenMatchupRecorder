@@ -560,7 +560,6 @@ function UpdateShareScreen() {
 		ctx.lineTo(950, baseyPosition - (88) + (shift * 50));
 		ctx.strokeStyle = "#FFFFFF"
 		ctx.stroke();
-		console.log(".");
 		shift++;
 	}
 	
