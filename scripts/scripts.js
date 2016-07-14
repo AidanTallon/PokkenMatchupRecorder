@@ -6,32 +6,56 @@ function InitializeCharacterDict() { // Populates CharacterDict with Character o
 			charName: char,																	// charName comes from CharacterNamesArr
 			charId: CharacterNamesArr.indexOf(char),										// charId comes from index of name in CharacterNamesArr. Is very important in determining layout. See PlaceButton() and PlaceShareButton() methods for more info.
 			matchupArr: new Array(CharacterNamesArr.length).fill(null),						// matchupArr contains value from -3 to 3 for each character in CharacterNamesArr. Index of value in array relates to charId
-			spriteString: "img/sprites/" + CharacterNamesArr.indexOf(char) + ".png",		// src location of sprite image png
-			portraitString: "img/portraits/" + CharacterNamesArr.indexOf(char) + ".png",	// src location of full character image png
+			spriteString: "img/sprites/" + char.replace(/ /g,'').toLowerCase() + ".png",		// src location of sprite image png
+			portraitString: "img/portraits/" + char.replace(/ /g,'').toLowerCase() + ".png",	// src location of full character image png
 			button: null,																	// button holds reference to character button on main select screen. 
 			matchupLabel: null, 															// matchupLabel is the label element that displays the matchup value between this character and CharOne when MatchupToggle is true. Is retrieved from CharOne.value.matchupArr[charId] where charId is Id of this char.
-			shareButton: null																// shareButton holds reference to character button on the share screen
+			shareButton: null,																// shareButton holds reference to character button on the share screen
+			gridPos: CharacterLayoutArr[char.replace(/ /g,'')]
 		};
 		CharacterDict.push({key:newChar.charId, value:newChar});
 	};
 };
 
-var CharacterNamesArr = ["Blaziken",	// is used to generate Character objects in CharacterDict. CharacterNamesArr can be of any length, but adding/removing characters will mess with the formatting and layout of the page.
-			 "Pikachu",
-			 "Lucario",
-			 "Gardevoir",
-			 "Pikachu Libre",
-			 "Sceptile",
-			 "Gengar",
-			 "Machamp",
-			 "Braixen",
-			 "Mewtwo",
-			 "Chandelure",
-			 "Suicune",
-			 "Weavile",
-			 "Charizard",
-			 "Garchomp",
-			 "Shadow Mewtwo"]; // Index corresponds to character ID.
+var CharacterNamesArr = [
+			"Darkrai",
+			"Blaziken",	// is used to generate Character objects in CharacterDict. CharacterNamesArr can be of any length, but adding/removing characters will mess with the formatting and layout of the page.
+			"Pikachu",
+			"Lucario",
+			"Gardevoir",
+			"Pikachu Libre",
+			"Sceptile",
+			"Gengar",
+			"Machamp",
+			"Braixen",
+			"Mewtwo",
+			"Chandelure",
+			"Suicune",
+			"Weavile",
+			"Charizard",
+			"Garchomp",
+			"Shadow Mewtwo"
+]; // Index corresponds to character ID.
+
+var CharacterLayoutArr = { // value is grid position in CharacterGrid
+	Darkrai: "00",
+	Blaziken: "01",
+	Pikachu: "02",
+	Lucario: "03",
+	Gardevoir: "04",
+	PikachuLibre: "05",
+	Sceptile: "11",
+	Gengar: "12",
+	Machamp: "14",
+	Braixen: "15",
+	Mewtwo: "20",
+	Chandelure: "21",
+	Suicune: "22",
+	Weavile: "23",
+	Charizard: "24",
+	Garchomp: "25",
+	ShadowMewtwo: "26"
+}
 
 var SelectInfo = { 												// Object used for user interactivity. Holds reference to selected buttons and trackbar values etc.
 	CharOne: null,												// CharOne holds reference to primary character selected
@@ -88,6 +112,21 @@ function InitializeDocInfo() {	//
 	DocInfo.ClearAllButton = document.getElementById("ClearAllButton");
 }
 
+function GenerateCharacterGrid() {
+	var container = document.getElementById("CharContainer");
+	for (var i = 0; i < 3; i++) {
+		var row = document.createElement("DIV");
+		row.className = "row seven-cols";
+		for (var j = 0; j < 7; j++) {
+			var div = document.createElement("DIV");
+			div.className = "col-md-1 col-xs-1 CharDiv";
+			div.id = "CharDiv" + i + j;
+			row.appendChild(div);
+		}
+		container.appendChild(row);
+	}
+}
+
 function GenerateCharacterButtons() { 											// buttons are of class CharButton. They are referenced in CharacterDict[i].value.button. ShareButtons are of class ShareCharButton and are in CharacterDict[i].value.shareButton
 	for (var char of CharacterDict){											// goes through all characters and assigns value.button, value.matchupLabel and value.shareButton.
 		(function(char) {
@@ -96,7 +135,7 @@ function GenerateCharacterButtons() { 											// buttons are of class CharBut
 
 			char.value.shareButton = NewShareButton(char);
 
-			PlaceButton(char.value.button, char.value.charId);					// function handles layout of CharacterDict.value.button
+			PlaceButton(char.value.button, char.value.gridPos);					// function handles layout of CharacterDict.value.button
 
 			PlaceShareButton(char.value.shareButton, char.value.charId);		// function handles layout of CharacterDict.value.shareButton
 
@@ -147,9 +186,9 @@ function NewShareButton(char) { // takes character object as argument and return
 	return shareBtn;
 };
 
-function PlaceButton(button, charId) {  					// takes button and charId as argument and places button in HTML #CharContainer based on charId. layout is heavily dependent on charId being the order at which buttons should be in and there being the correct amount of characters
+function PlaceButton(button, gridPos) {  					// takes button and charId as argument and places button in HTML #CharContainer based on charId. layout is heavily dependent on charId being the order at which buttons should be in and there being the correct amount of characters
 															// if amount of characters changes, this is the function to alter to change the layout
-	var div = document.getElementById("CharDiv" + charId);
+	var div = document.getElementById("CharDiv" + gridPos);
 	div.appendChild(button);								// append button to div element
 };
 
@@ -682,6 +721,7 @@ function closeAboutNav() {
 $(document).ready(function() {
 	InitializeCharacterDict();
 	InitializeDocInfo();
+	GenerateCharacterGrid();
 	GenerateCharacterButtons();
 	document.getElementById("ShareOverlay").style.height = "0%";
 	document.getElementById("HelpOverlay").style.height = "0%";

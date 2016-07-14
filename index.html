@@ -67,33 +67,9 @@
 
 <div id="PrimaryContainer" class="container-fluid">
 
-	<div id="CharContainer" class="container">
-		<div class="row seven-cols"> <!-- Row one of character select -->
-			<div class="col-md-1 col-xs-1"><!-- Empty Div --></div>
-			<div id="CharDiv0" class="col-md-1 col-xs-1 CharDiv"></div>
-			<div id="CharDiv1" class="col-md-1 col-xs-1 CharDiv"></div>
-			<div id="CharDiv2" class="col-md-1 col-xs-1 CharDiv"></div>
-			<div id="CharDiv3" class="col-md-1 col-xs-1 CharDiv"></div>
-			<div id="CharDiv4" class="col-md-1 col-xs-1 CharDiv"></div>
-		</div>
-		<div class="row seven-cols"> <!-- Row two of character select -->
-			<div class="col-md-1 col-xs-1"><!-- Empty Div --></div>
-			<div id="CharDiv5" class="col-md-1 col-xs-1 CharDiv"></div>
-			<div id="CharDiv6" class="col-md-1 col-xs-1 CharDiv"></div>
-			<div class="col-md-1 col-xs-1"><!-- Empty Div --></div>
-			<div id="CharDiv7"  class="col-md-1 col-xs-1 CharDiv"></div>
-			<div id="CharDiv8" class="col-md-1 col-xs-1 CharDiv"></div>
-		</div>
-		<div class="row seven-cols"> <!-- Row three of character select -->
-			<div id="CharDiv9" class="col-md-1 col-xs-1 CharDiv"></div>
-			<div id="CharDiv10" class="col-md-1 col-xs-1 CharDiv"></div>
-			<div id="CharDiv11" class="col-md-1 col-xs-1 CharDiv"></div>
-			<div id="CharDiv12" class="col-md-1 col-xs-1 CharDiv"></div>
-			<div id="CharDiv13" class="col-md-1 col-xs-1 CharDiv"></div>
-			<div id="CharDiv14" class="col-md-1 col-xs-1 CharDiv"></div>
-			<div id="CharDiv15" class="col-md-1 col-xs-1 CharDiv"></div>
-		</div>
+	<div id="CharContainer" class="container"> <!-- Filled by GenerateCharacterGrid() -->
 	</div>
+	
 	<div id="SelectContainer" class="container"> <!-- Shows currently selected characters, and options for recording matchup -->
 		<div class="row">
 			<button id="MatchupToggleButton" class="btn btn-info" onclick="ClickMatchupToggle()" class="btn" type="button">Hide Matchups</button>
