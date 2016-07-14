@@ -339,7 +339,7 @@ function CheckJSONContents(contents) {	// verifies data is as it should be. retu
 			console.log("Array should be length " + CharacterNamesArr.length + ". Current length is " + a[1].length + ".");
 			success = false;
 		}
-		if (!a[0] in CharacterNamesArr) {
+		if (CharacterNamesArr.indexOf(a[0]) == -1) {
 			console.log("No match found for character of name " + a[0] + ".");
 			success = false;
 		}
@@ -377,6 +377,10 @@ function ExportCharacterDict(filename) {
 		arrIn.push([c.value.charName, c.value.matchupArr]);
 	}
 	var textIn = JSON.stringify(arrIn, intReplacer);
+	if (!CheckJSONContents(textIn)) {
+		alert("File write error. Data values not formatted as expected.");
+		return;
+	}
 	var blob = new Blob([textIn], {type: "text/csv"});
 	if (window.navigator.msSaveOrOpenBlob) {
 		window.navigator.msSaveBlob(blob, filename);
@@ -390,12 +394,17 @@ function ExportCharacterDict(filename) {
 		document.body.removeChild(elem);
 	}
 };
-	
 
 function RecordMatchup() {
-	SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key] = SelectInfo.TrackBar.value;
-	SelectInfo.CharTwo.value.matchupArr[SelectInfo.CharOne.key] = 0 - SelectInfo.TrackBar.value;
-	ShowMatchups();
+	if (SelectInfo.TrackBar.value < -3 || SelectInfo.TrackBar.value > 3) {
+		console.log("Invalid data value.");
+		return;
+	}
+	else {
+		SelectInfo.CharOne.value.matchupArr[SelectInfo.CharTwo.key] = SelectInfo.TrackBar.value;
+		SelectInfo.CharTwo.value.matchupArr[SelectInfo.CharOne.key] = 0 - SelectInfo.TrackBar.value;
+		ShowMatchups();
+	}
 };
 
 function DeleteSpecificMatchup() { // Delete specific matchup between CharOne and CharTwo
