@@ -1,0 +1,123 @@
+{
+  "characters": [
+    {
+      "name": "Darkrai",
+      "id": 0,
+      "gridPos": [0, 0],
+      "spriteString": "img/sprites/darkrai.png",
+      "portraitString": "img/portraits/darkrai.png"
+    },
+    {
+      "name": "Blaziken",
+      "id": 1,
+      "gridPos": [0, 1],
+      "spriteString": "img/sprites/blaziken.png",
+      "portraitString": "img/portraits/blaziken.png"
+    },
+    {
+      "name": "Pikachu",
+      "id": 2,
+      "gridPos": [0, 2],
+      "spriteString": "img/sprites/pikachu.png",
+      "portraitString": "img/portraits/pikachu.png"
+    },
+    {
+      "name": "Lucario",
+      "id": 3,
+      "gridPos": [0, 3],
+      "spriteString": "img/sprites/lucario.png",
+      "portraitString": "img/portraits/lucario.png"
+    },
+    {
+      "name": "Gardevoir",
+      "id": 4,
+      "gridPos": [0, 4],
+      "spriteString": "img/sprites/gardevoir.png",
+      "portraitString": "img/portraits/gardevoir.png"
+    },
+    {
+      "name": "Pikachu Libre",
+      "id": 5,
+      "gridPos": [0, 5],
+      "spriteString": "img/sprites/pikachulibre.png",
+      "portraitString": "img/portraits/pikachulibre.png"
+    },
+    {
+      "name": "Sceptile",
+      "id": 6,
+      "gridPos": [1, 1],
+      "spriteString": "img/sprites/sceptile.png",
+      "portraitString": "img/portraits/sceptile.png"
+    },
+    {
+      "name": "Gengar",
+      "id": 7,
+      "gridPos": [1, 2],
+      "spriteString": "img/sprites/gengar.png",
+      "portraitString": "img/portraits/gengar.png"
+    },
+    {
+      "name": "Machamp",
+      "id": 8,
+      "gridPos": [1, 4],
+      "spriteString": "img/sprites/machamp.png",
+      "portraitString": "img/portraits/machamp.png"
+    },
+    {
+      "name": "Braixen",
+      "id": 9,
+      "gridPos": [1, 5],
+      "spriteString": "img/sprites/braixen.png",
+      "portraitString": "img/portraits/braixen.png"
+    },
+    {
+      "name": "Mewtwo",
+      "id": 10,
+      "gridPos": [2, 0],
+      "spriteString": "img/sprites/mewtwo.png",
+      "portraitString": "img/portraits/mewtwo.png"
+    },
+    {
+      "name": "Chandelure",
+      "id": 11,
+      "gridPos": [2, 1],
+      "spriteString": "img/sprites/chandelure.png",
+      "portraitString": "img/portraits/chandelure.png"
+    },
+    {
+      "name": "Suicune",
+      "id": 12,
+      "gridPos": [2, 2],
+      "spriteString": "img/sprites/suicune.png",
+      "portraitString": "img/portraits/suicune.png"
+    },
+    {
+      "name": "Weavile",
+      "id": 13,
+      "gridPos": [2, 3],
+      "spriteString": "img/sprites/weavile.png",
+      "portraitString": "img/portraits/weavile.png"
+    },
+    {
+      "name": "Charizard",
+      "id": 14,
+      "gridPos": [2, 4],
+      "spriteString": "img/sprites/charizard.png",
+      "portraitString": "img/portraits/charizard.png"
+    },
+    {
+      "name": "Garchomp",
+      "id": 15,
+      "gridPos": [2, 5],
+      "spriteString": "img/sprites/garchomp.png",
+      "portraitString": "img/portraits/garchomp.png"
+    },
+    {
+      "name": "Shadow Mewtwo",
+      "id": 16,
+      "gridPos": [2, 6],
+      "spriteString": "img/sprites/shadowmewtwo.png",
+      "portraitString": "img/portraits/shadowmewtwo.png"
+    }
+  ]
+}
