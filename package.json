@@ -1,0 +1,21 @@
+{
+  "name": "pokken-matchup-recorder",
+  "description": "App to save Pokken Tournament character matchup opinions.",
+  "version": "0.0.1",
+  "engines": {
+    "node": "7.4.0"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "express": "4.14.0",
+    "ejs": "2.5.5"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AidanTallon/PokkenMatchupRecorder"
+  },
+  "license": "MIT"
+}
