@@ -1,20 +1,7 @@
-var CharacterDict = []; // Stores all Character objects, with key equal to Character.charId (which is the same as the index of the character name in CharacterNamesArr).
+var CharacterDict = []; // Stores all Character objects, with key equal to Character.id (which is the same as the index of the character name in CharacterNamesArr).
 
 function InitializeCharacterDict() { // Populates CharacterDict with Character objects for each name in CharacterNamesArr.
-	for (var char of CharacterNamesArr) {
-		var newChar = {
-			charName: char,																	// charName comes from CharacterNamesArr
-			charId: CharacterNamesArr.indexOf(char),										// charId comes from index of name in CharacterNamesArr. Is very important in determining layout. See PlaceButton() and PlaceShareButton() methods for more info.
-			matchupArr: new Array(CharacterNamesArr.length).fill(null),						// matchupArr contains value from -3 to 3 for each character in CharacterNamesArr. Index of value in array relates to charId
-			spriteString: "img/sprites/" + char.replace(/ /g,'').toLowerCase() + ".png",		// src location of sprite image png
-			portraitString: "img/portraits/" + char.replace(/ /g,'').toLowerCase() + ".png",	// src location of full character image png
-			button: null,																	// button holds reference to character button on main select screen. 
-			matchupLabel: null, 															// matchupLabel is the label element that displays the matchup value between this character and CharOne when MatchupToggle is true. Is retrieved from CharOne.value.matchupArr[charId] where charId is Id of this char.
-			shareButton: null,																// shareButton holds reference to character button on the share screen
-			gridPos: CharacterLayoutArr[char.replace(/ /g,'')]
-		};
-		CharacterDict.push({key:newChar.charId, value:newChar});
-	};
+	CharacterDict = CharacterFactory();
 };
 
 var CharacterNamesArr = [
@@ -137,7 +124,7 @@ function GenerateCharacterButtons() { 											// buttons are of class CharBut
 
 			PlaceButton(char.value.button, char.value.gridPos);					// function handles layout of CharacterDict.value.button
 
-			PlaceShareButton(char.value.shareButton, char.value.charId);		// function handles layout of CharacterDict.value.shareButton
+			PlaceShareButton(char.value.shareButton, char.value.id);		// function handles layout of CharacterDict.value.shareButton
 
 		})(char);
 	};
@@ -145,7 +132,7 @@ function GenerateCharacterButtons() { 											// buttons are of class CharBut
 
 function NewCharButton(char) { // takes character object as argument and returns a new character button with class CharButton
 	var newBtn = document.createElement("BUTTON");
-	newBtn.title = char.value.charName;
+	newBtn.title = char.value.name;
 	newBtn.className = "CharButton";
 	newBtn.addEventListener("click", function() {
 		CharButtonClick(char)
@@ -169,7 +156,7 @@ function NewCharButton(char) { // takes character object as argument and returns
 
 function NewShareButton(char) { // takes character object as argument and returns a new share button with class ShareCharButton
 	var shareBtn = document.createElement("BUTTON");
-	shareBtn.title = char.value.charName;
+	shareBtn.title = char.value.name;
 	shareBtn.className = "ShareCharButton";
 	shareBtn.addEventListener("click", function() {
 				ShareCharButtonClick(char);
@@ -186,13 +173,13 @@ function NewShareButton(char) { // takes character object as argument and return
 	return shareBtn;
 };
 
-function PlaceButton(button, gridPos) {  					// takes button and charId as argument and places button in HTML #CharContainer based on charId. layout is heavily dependent on charId being the order at which buttons should be in and there being the correct amount of characters
+function PlaceButton(button, gridPos) {  					// takes button and id as argument and places button in HTML #CharContainer based on id. layout is heavily dependent on id being the order at which buttons should be in and there being the correct amount of characters
 															// if amount of characters changes, this is the function to alter to change the layout
-	var div = document.getElementById("CharDiv" + gridPos);
+	var div = document.getElementById("CharDiv" + gridPos[0] + gridPos[1]);
 	div.appendChild(button);								// append button to div element
 };
 
-function PlaceShareButton(button, charId) { 							// takes button and charId as argument and places button in HTML #ShareCharContainer based on charId. layout is heavily dependent on charId being the order at which buttons should be in and the being the correct amount of characters
+function PlaceShareButton(button, id) { 							// takes button and id as argument and places button in HTML #ShareCharContainer based on id. layout is heavily dependent on id being the order at which buttons should be in and the being the correct amount of characters
 																		// if amount of characters changes, this is the function to alter to change the layout
 	var shareContainer = $("#ShareCharContainer");
 
@@ -200,11 +187,11 @@ function PlaceShareButton(button, charId) { 							// takes button and charId as
 	div.className = "col-md-1 col-xs-1 ShareCharDiv";
 	div.appendChild(button);											// append button to div element
 
-	if (charId == 0 || charId == 8) {									// add offset class to 1st element of rows 1 and 2
+	if (id == 0 || id == 8) {									// add offset class to 1st element of rows 1 and 2
 		div.className = "col-md-1 col-xs-1 col-md-offset-2 col-xs-offset-2 ShareCharDiv";
 	}
 
-	if (charId < 8) shareContainer.children().eq(0).append(div);		// add div element to 1st row
+	if (id < 8) shareContainer.children().eq(0).append(div);		// add div element to 1st row
 	else shareContainer.children().eq(1).append(div);					// add div element to 2nd row
 };
 
@@ -304,7 +291,7 @@ function LoadCharacterDict(evt) {
 				arrIn = JSON.parse(contents);
 				for (a of arrIn) {
 					for (c of CharacterDict) {
-						if (a[0] == c.value.charName) {
+						if (a[0] == c.value.name) {
 							c.value.matchupArr = a[1];
 							continue;
 						}
@@ -374,7 +361,7 @@ function ExportCharacterDict(filename) {
 	if (!filename.endsWith(".txt")) filename = filename.concat(".txt");
 	var arrIn = [];
 	for (c of CharacterDict) {
-		arrIn.push([c.value.charName, c.value.matchupArr]);
+		arrIn.push([c.value.name, c.value.matchupArr]);
 	}
 	var textIn = JSON.stringify(arrIn, intReplacer);
 	if (!CheckJSONContents(textIn)) {
@@ -502,13 +489,13 @@ function TrackBarChange(value) { // Updates TrackBarLabel and HelperText
 		SelectInfo.TrackBar.value = value;
 		SelectInfo.TrackBarLabel.innerHTML = value;
 		if (value == 0) {
-			SelectInfo.HelperText.innerHTML = SelectInfo.CharOne.value.charName + " vs. " + SelectInfo.CharTwo.value.charName + " is an even matchup.";
+			SelectInfo.HelperText.innerHTML = SelectInfo.CharOne.value.name + " vs. " + SelectInfo.CharTwo.value.name + " is an even matchup.";
 		}
 		else if (value < 0) {
-			SelectInfo.HelperText.innerHTML = SelectInfo.CharOne.value.charName + " loses to " + SelectInfo.CharTwo.value.charName + " with a " + value + " disadvantage.";
+			SelectInfo.HelperText.innerHTML = SelectInfo.CharOne.value.name + " loses to " + SelectInfo.CharTwo.value.name + " with a " + value + " disadvantage.";
 		}
 		else if (value > 0) {
-			SelectInfo.HelperText.innerHTML = SelectInfo.CharOne.value.charName + " wins against " + SelectInfo.CharTwo.value.charName + " with a +" + value + " advantage.";
+			SelectInfo.HelperText.innerHTML = SelectInfo.CharOne.value.name + " wins against " + SelectInfo.CharTwo.value.name + " with a +" + value + " advantage.";
 		};
 	}
 	else if (SelectInfo.TrackBar.disabled) {
@@ -575,7 +562,7 @@ function UpdateShareScreen() {
 	ctx.font = "30px Arial";
 	ctx.fillStyle = "white";
 	ctx.textAlign = "center";
-	ctx.fillText(SelectInfo.ShareChar.value.charName, 240, 470);
+	ctx.fillText(SelectInfo.ShareChar.value.name, 240, 470);
 	
 	var rowCount = [0, 0, 0, 0, 0]; // rowCount[i] i matches directly to row number, apart from rowCount[4] is for null values
 	rowCount[-1] = 0;
@@ -583,7 +570,7 @@ function UpdateShareScreen() {
 	rowCount[-3] = 0;
 	var i = CharacterDict.length;
 	while (i--) {							// get number of characters in row.
-		if (i == SelectInfo.ShareChar.value.charId) {
+		if (i == SelectInfo.ShareChar.value.id) {
 			continue;
 		}
 		else if (SelectInfo.ShareChar.value.matchupArr[i] == null) {
@@ -613,7 +600,7 @@ function UpdateShareScreen() {
 	
 	i = CharacterDict.length;
 	while (i--) { // work rows backwards
-		if (i == SelectInfo.ShareChar.value.charId) {
+		if (i == SelectInfo.ShareChar.value.id) {
 			continue;
 		}
 		else {

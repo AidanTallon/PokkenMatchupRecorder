@@ -1,4 +1,4 @@
-{
+const CHARACTERS_DATA = {
   "characters": [
     {
       "name": "Darkrai",
