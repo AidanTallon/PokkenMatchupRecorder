@@ -13,15 +13,15 @@
 
 <body>
 
-<div id="Toolbar" tid="test-toolbar">
+<div id="Toolbar" tid="toolbar">
 	<ul>
-		<li><button onclick="clickAboutNav()" style="float: left; width: 200px; padding: 14px 0px;">Pokken Matchup Recorder</button></li>
-		<li><button onclick="ClearButtonClick(this)">Clear</button></li>
-		<li><input id="FileInput" type="file" style="visibility:hidden" /><button onclick="$('#FileInput').click();">Load</button></li>
-		<li><button onclick="ClickSave()">Save</button></li>
-		<li><button onclick="clickSettingsNav()">Settings</button></li>
-		<li><button onclick="clickHelpNav()">Help</button></li>
-		<li><button onclick="clickShareNav()">Share</button></li>
+		<li><button tid="about-button" onclick="clickAboutNav()" style="float: left; width: 200px; padding: 14px 0px;">Pokken Matchup Recorder</button></li>
+		<li><button tid="clear-button" onclick="ClearButtonClick(this)" tid="clear-button">Clear</button></li>
+		<li><input id="FileInput" type="file" style="visibility:hidden" /><button tid="load-button" onclick="$('#FileInput').click();">Load</button></li>
+		<li><button tid="save-button" onclick="ClickSave()">Save</button></li>
+		<li><button tid="settings-button" onclick="clickSettingsNav()">Settings</button></li>
+		<li><button tid="help-button" onclick="clickHelpNav()">Help</button></li>
+		<li><button tid="share-button" onclick="clickShareNav()">Share</button></li>
 	</ul>
 </div>
 
@@ -80,11 +80,11 @@
 				</div>
 			</div>
 			<div class="col-md-2 col-xs-4 MiddleSelectDiv">
-				<input type="range" min="-3" max="3" value="0" onchange="TrackBarChange(this.value)" name="result" id="MatchupTrackBar" disabled="true" autocomplete="off" title="Select characters first!"/>
+				<input tid="track-bar" type="range" min="-3" max="3" value="0" onchange="TrackBarChange(this.value)" name="result" id="MatchupTrackBar" disabled="true" autocomplete="off" title="Select characters first!"/>
 				<label id="TrackBarLabel"></label>
 				<span id="HelperText"></span>
-				<input class="SubmitButton btn btn-primary" type="button" value="Submit" onclick="RecordMatchup();return false" />
-				<button class="DeleteMatchupButton btn btn-danger" type="btn" onclick="DeleteSpecificMatchup()">! Delete Matchup</button>
+				<input tid="submit-matchup-button" class="SubmitButton btn btn-primary" type="button" value="Submit" onclick="RecordMatchup();return false" />
+				<button tid="delete-matchup-button" class="DeleteMatchupButton btn btn-danger" type="btn" onclick="DeleteSpecificMatchup()">! Delete Matchup</button>
 			</div>
 			<div class="col-md-4 col-xs-4">
 				<div id="CharTwoImage" class="CharacterPortraitDiv"> <!-- CharTwo Image -->
