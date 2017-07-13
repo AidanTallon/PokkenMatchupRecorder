@@ -3,7 +3,7 @@
   "description": "App to save Pokken Tournament character matchup opinions.",
   "version": "0.0.1",
   "engines": {
-    "node": "7.4.0"
+    "node": "7.10.1"
   },
   "main": "index.js",
   "dependencies": {
